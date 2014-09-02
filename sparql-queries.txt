@@ -1,0 +1,45 @@
+#########################################################################
+#                                                                       #                                     
+#               SPARQL QUERIES on Linked Movie Database                 # 
+#                                                                       #
+#########################################################################
+
+# 1. find name of all actors 
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+PREFIX mv: <http://data.linkedmdb.org/resource/movie/>
+PREFIX film: <http://data.linkedmdb.org/resource/film/>
+PREFIX actor: <http://data.linkedmdb.org/resource/actor/>
+
+SELECT ?name WHERE {
+	SERVICE <http://data.linkedmdb.org/sparql>{
+	?actor rdf:type foaf:Person .
+	?actor rdf:type mv:actor .
+	?actor rdfs:label ?name .
+	}
+}
+
+# 2. find name of all actors who played in films with the title "Hannibal" 
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX mv: <http://data.linkedmdb.org/resource/movie/>
+PREFIX film: <http://data.linkedmdb.org/resource/film/>
+PREFIX actor: <http://data.linkedmdb.org/resource/actor/>
+
+SELECT ?name WHERE {
+	SERVICE <http://data.linkedmdb.org/sparql>{
+	?film rdf:type mv:film .
+	?film dc:title "Hannibal" .
+	?film mv:actor ?actor .
+	?actor rdfs:label ?name .
+	}
+}
+
+# 3. 
