@@ -1,0 +1,19 @@
+<h1>Person</h1>
+<div>
+	<form ng-submit="submitperson()">
+		<label>Name</label>
+		<input ng-model="name"><br>
+		<label>Gender</label>	
+		<input type="radio" name="gender" value="male" ng-model="gender">Male
+		<input type="radio" name="gender" value="female" ng-model="gender">Female<br>
+		<label>Age</label>
+		<input ng-model="age"></input><br>
+		<label>Study program</label>
+		<input ng-model="study_program"><br>
+		<button>Submit</button>
+	</form>
+	{{name}}
+	{{gender}}
+	{{age}}
+	{{study_program}}
+</div>
