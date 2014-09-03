@@ -29,6 +29,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX dc: <http://purl.org/dc/terms/>
+
 PREFIX mv: <http://data.linkedmdb.org/resource/movie/>
 PREFIX film: <http://data.linkedmdb.org/resource/film/>
 PREFIX actor: <http://data.linkedmdb.org/resource/actor/>
@@ -42,4 +43,49 @@ SELECT ?name WHERE {
 	}
 }
 
-# 3. 
+# 3. finds titles of all movies with both Anthony Hopkins and Jodie Foster 
+
+# 3a) exact string matching
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+PREFIX mv: <http://data.linkedmdb.org/resource/movie/>
+PREFIX film: <http://data.linkedmdb.org/resource/film/>
+PREFIX actor: <http://data.linkedmdb.org/resource/actor/>
+
+SELECT DISTINCT ?title WHERE {
+	SERVICE <http://data.linkedmdb.org/sparql>{
+	?film mv:actor ?actor1 .
+	?film mv:actor ?actor2 .
+	?film dc:title ?title .
+	?actor1 rdfs:label  "Anthony Hopkins (Actor)" .
+    ?actor2 rdfs:label "Jodie Foster (Actor)".
+	}
+}
+
+# 3b) filters on matching substrings
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX mv: <http://data.linkedmdb.org/resource/movie/>
+PREFIX film: <http://data.linkedmdb.org/resource/film/>
+PREFIX actor: <http://data.linkedmdb.org/resource/actor/>
+
+SELECT DISTINCT ?title WHERE {
+	SERVICE <http://data.linkedmdb.org/sparql>{
+	?film mv:actor ?actor1 .
+	?film mv:actor ?actor2 .
+	?film dc:title ?title .
+	?actor1 rdfs:label  ?name1 .
+    ?actor2 rdfs:label ?name2 .
+	FILTER (regex(?name1,"Anthony Hopkins","i"))
+    FILTER (regex(?name2,"Jodie Foster","i"))
+	}
+}
+
+# 4. 
