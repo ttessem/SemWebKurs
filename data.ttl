@@ -1,0 +1,81 @@
+# baseURI: http://data.computas.com/data
+# imports: http://data.computas.com/kurs
+
+@prefix actor: <http://data.linkedmdb.org/resource/actor/> .
+@prefix data: <http://data.computas.com/data#> .
+@prefix film: <http://data.linkedmdb.org/resource/film/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix kurs: <http://data.computas.com/kurs#> .
+@prefix movie: <http://data.linkedmdb.org/resource/movie/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://data.computas.com/data>
+  rdf:type owl:Ontology ;
+  owl:imports <http://data.computas.com/kurs> ;
+  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
+.
+kurs:Person_01
+  rdf:type kurs:Person ;
+  kurs:alder 29 ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/1> ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/2> ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/33> ;
+  kurs:studieretning "Informasjonsvitenskap"^^xsd:string ;
+  foaf:firstName "Lisa"^^xsd:string ;
+  foaf:surname "Halvorsen"^^xsd:string ;
+.
+kurs:Person_02
+  rdf:type kurs:Person ;
+  kurs:alder 54 ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/1014> ;
+  kurs:studieretning "sosialpedagogikk"^^xsd:string ;
+  foaf:firstName "Kristin"^^xsd:string ;
+  foaf:surname "Halvorsen"^^xsd:string ;
+.
+kurs:Person_03
+  rdf:type kurs:Person ;
+  kurs:alder 25 ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/1> ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/10> ;
+  kurs:harSett <http://data.linkedmdb.org/resource/film/987> ;
+  kurs:studieretning "Informatikk"^^xsd:string ;
+  foaf:firstName "Torgeir"^^xsd:string ;
+  foaf:knows kurs:Person_01 ;
+  foaf:surname "Grønning"^^xsd:string ;
+.
+kurs:Person_04
+  rdf:type kurs:Person ;
+.
+kurs:Person_05
+  rdf:type kurs:Person ;
+.
+kurs:Person_06
+  rdf:type kurs:Person ;
+.
+kurs:Person_07
+  rdf:type kurs:Person ;
+.
+kurs:Person_08
+  rdf:type kurs:Person ;
+.
+kurs:Person_09
+  rdf:type kurs:Person ;
+.
+kurs:Person_10
+  rdf:type kurs:Person ;
+.
+kurs:Person_11
+  rdf:type kurs:Person ;
+.
+kurs:Person_12
+  rdf:type kurs:Person ;
+.
+kurs:Person_13
+  rdf:type kurs:Person ;
+.
+kurs:Person_14
+  rdf:type kurs:Person ;
+.

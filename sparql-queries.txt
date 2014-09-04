@@ -88,4 +88,14 @@ SELECT DISTINCT ?title WHERE {
 	}
 }
 
-# 4. 
+# 4. Finner fornavnet og alle filmer personer med etternavn "Halvorsen" har sett, denne spørringen går ut i fra instansdara gitt i data.ttl
+
+SELECT ?name ?title WHERE {
+	?person a kurs:Person .
+	?person foaf:firstName ?name .
+	?person foaf:surname "Halvorsen" .
+	?person kurs:harSett ?film .
+	SERVICE <http://data.linkedmdb.org/sparql>{
+	?film rdfs:label ?title .
+	}
+}
