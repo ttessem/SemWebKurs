@@ -87,4 +87,9 @@ public class SparqlConnection implements RdfConnection {
 	private String asIRI(String r){
 		return "<"+r+">";
 	}
+
+	@Override
+	public void setModel(Model model, String graphName) {
+		throw new Error(SparqlConnection.class.toString()+".setModel not implemented yet.");		
+	}
 }

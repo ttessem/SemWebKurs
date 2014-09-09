@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 @Path("uib/person")
 public class PersonProvider {
 
-	@POST
+	@GET
 	public String getName() {
 		return "Alex" ;
 	}

@@ -9,8 +9,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.update.UpdateRequest;
 
 public interface RdfConnection {
-    public static final String 	LOCAL 	= "LocalConnection";
-	public static final String  FEST 	= "FestRepoConnection";
+	public static final String ONTOLOGY_GRAPH = "ontology";
+    public static final String LOCAL 	= "LocalConnection";
+	public static final String LMDB 	= "LmdbConnection";
 	
 	Model executeConstruct(Query constructQuery);
 
@@ -21,6 +22,7 @@ public interface RdfConnection {
     void addModel(Model model, String graphName);
 
     void executeUpdate(UpdateRequest queryString);
+    void setModel(Model model, String graphName);
     
     @PostConstruct
     public void init();

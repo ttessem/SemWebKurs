@@ -44,6 +44,7 @@ public class InMemoryConnection implements RdfConnection {
     public void init() {
         datasetGraph = DatasetGraphFactory.createMem();
         grapNodeMap = new HashMap();
+        addModel(baseOntology, RdfConnection.ONTOLOGY_GRAPH);
     }
 
     @PreDestroy
@@ -103,11 +104,17 @@ public class InMemoryConnection implements RdfConnection {
         Node graphNameNode = getGraphNameNode(graphName);
         Graph graph = datasetGraph.getGraph(graphNameNode);
 
-        if (graph == null) {    //add new graph
-            datasetGraph.addGraph(graphNameNode, model.getGraph());
-        }
+//        if (graph == null) {    //add new graph
+//            datasetGraph.addGraph(graphNameNode, ModelFactory.createDefaultModel().getGraph());
+//        }
         //add to existing graph
         GraphUtil.addInto(graph, model.getGraph());
+    }
+    
+    @Override
+    public void setModel(Model model, String graphName) {
+        Node graphNameNode = getGraphNameNode(graphName);
+        datasetGraph.addGraph(graphNameNode, model.getGraph());
     }
 
     @Override

@@ -6,18 +6,18 @@ import com.computas.sem.uib.connection.RdfConnection;
 
 class InjectionConfiguration extends AbstractBinder {
 	private RdfConnection localConnection;
-	private RdfConnection festConnection;
+	private RdfConnection lmdbConnection;
 	
-	public InjectionConfiguration(RdfConnection local, RdfConnection fest) {
+	public InjectionConfiguration(RdfConnection local, RdfConnection lmdbConnection) {
 		this.localConnection = local;
-		this.festConnection = fest;
+		this.lmdbConnection = lmdbConnection;
 	}
 	
 	@Override
 	protected void configure() {	
 		//connections
 		bind(localConnection).named(RdfConnection.LOCAL).to(RdfConnection.class);
-		bind(festConnection).named(RdfConnection.FEST).to(RdfConnection.class);
+		bind(lmdbConnection).named(RdfConnection.LMDB).to(RdfConnection.class);
 		
 	}
 }

@@ -17,7 +17,7 @@ public class GrizzlyContainer {
 	private static final URI BASE_URI = getBaseURI();
 
 	public static void main(String[] args) throws IOException {
-//		org.apache.log4j.BasicConfigurator.configure();
+		org.apache.log4j.BasicConfigurator.configure();
 		
 		PoCApplication pocApp = new PoCApplication();
 		pocApp.prepare();

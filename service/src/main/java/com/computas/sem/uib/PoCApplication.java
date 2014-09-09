@@ -8,19 +8,22 @@ import org.glassfish.jersey.server.ResourceConfig;
 import com.computas.sem.uib.connection.InMemoryConnection;
 import com.computas.sem.uib.connection.RdfConnection;
 import com.computas.sem.uib.connection.SparqlConnection;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 class PoCApplication extends ResourceConfig {
 	private final List<RdfConnection> connections = new LinkedList<>();
 	
 	public PoCApplication() {
-		InMemoryConnection localCon = new InMemoryConnection(ModelFactory.createDefaultModel());
-//		SparqlConnection festCon = new SparqlConnection("http://helse.data.computas.com/openrdf-sesame/repositories/fest", 
-//									"http://helse.data.computas.com/openrdf-sesame/repositories/fest/statements");
-//		connections.add(localCon);
-//		connections.add(festCon);
+		Model ontology = ModelFactory.createDefaultModel();
+		ontology.read("src/main/resources/kurs.ttl", "TURTLE");
 		
-		register(new InjectionConfiguration(localCon, null));
+		InMemoryConnection localCon = new InMemoryConnection(ontology);
+		SparqlConnection lmdbCon = new SparqlConnection("http://data.linkedmdb.org/sparql", null);
+		connections.add(localCon);
+		connections.add(lmdbCon);
+		
+		register(new InjectionConfiguration(localCon, lmdbCon));
 		packages(true, "com.computas.sem.uib.provider");
 	}
 
