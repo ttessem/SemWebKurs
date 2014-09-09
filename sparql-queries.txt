@@ -81,7 +81,7 @@ SELECT DISTINCT ?title WHERE {
 	?film mv:actor ?actor1 .
 	?film mv:actor ?actor2 .
 	?film dc:title ?title .
-	?actor1 rdfs:label  ?name1 .
+	?actor1 rdfs:label ?name1 .
     ?actor2 rdfs:label ?name2 .
 	FILTER (regex(?name1,"Anthony Hopkins","i"))
     FILTER (regex(?name2,"Jodie Foster","i"))
