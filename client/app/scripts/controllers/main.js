@@ -1,4 +1,4 @@
-(function(appControllers){
+(function(app){
 
 'use strict';
 
@@ -9,8 +9,16 @@
  * # MainCtrl
  * Controller of the whishlistApp
  */
-appControllers.controller('MainCtrl', ['$scope', function($scope) {
+app.controller('MainCtrl', ['$scope', function($scope) {
 		$scope.app = {name: "SeWebKrusKlient"}
 		$scope.welcomeText = "Velkomemen til bedriftspresentasjon med Computas";
+		$scope.submitperson = function() {
+			$scope.name
+			$scope.gender
+			$scope.age
+			$scope.study_program	
+		}
+		
+
 	}]);
-})(angular.module('appControllers'));
+})(angular.module('app'));

@@ -1,28 +1,45 @@
-(function (angular) {
   'use strict';
-  angular.module('appServices', []);
-  angular.module('appControllers', []);
-  angular.module('appDirectives', []);
 
   var app = angular.module('app', 
-    ['ngRoute','appServices', 'appControllers', 'appDirectives']);
+    ['ngRoute']);
 
-  app.config(function ($routeProvider) {
+  app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('#/person', {
+         templateUrl: 'views/main.html',
+         controller: 'MainCtrl'
+       })
+      .when('/person', {
         templateUrl: 'views/person.html',
         controller: 'PersonCtrl'
       })
-      .when('#/movie', {
+      .when('/movie', {
         templateUrl: 'views/movie.html',
         controller: 'MovieCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/person'
       });
-  });
-}(angular));
+  }]);
+
+
+
+
+// config(function($routeProvider, $locationProvider) {
+//   $routeProvider
+//    .when('/Book/:bookId', {
+//     templateUrl: 'book.html',
+//     controller: 'BookController',
+//     resolve: {
+//       // I will cause a 1 second delay
+//       delay: function($q, $timeout) {
+//         var delay = $q.defer();
+//         $timeout(delay.resolve, 1000);
+//         return delay.promise;
+//       }
+//     }
+//   })
+//   .when('/Book/:bookId/ch/:chapterId', {
+//     templateUrl: 'chapter.html',
+//     controller: 'ChapterController'
+//   });
