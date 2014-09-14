@@ -8,6 +8,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://data.computas.com/kurs>
@@ -18,11 +19,13 @@
 kurs:Person
   rdf:type owl:Class ;
   rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ;
+  rdfs:label "Person" ;
 .
 kurs:alder
   rdf:type owl:DatatypeProperty ;
   rdfs:domain kurs:Person ;
   rdfs:range xsd:integer ;
+  rdfs:label "alder" ;
 .
 kurs:harSett
   rdf:type owl:ObjectProperty ;
@@ -34,9 +37,23 @@ kurs:harSett
           dbpedia-owl:film
         ) ;
     ] ;
+  rdfs:label "harSett" ;
 .
 kurs:studieretning
   rdf:type owl:DatatypeProperty ;
   rdfs:domain kurs:Person ;
   rdfs:range xsd:string ;
+  rdfs:label "studieretning" ;
+.
+foaf:firstName 
+	rdfs:domain kurs:Person ;
+	rdfs:label "fornavn" ;
+.
+foaf:lastName 
+	rdfs:domain kurs:Person ;
+	rdfs:label "etternavn" ;
+.
+foaf:knows 
+	rdfs:domain kurs:Person ;
+	rdfs:label "kjenner" ;
 .
