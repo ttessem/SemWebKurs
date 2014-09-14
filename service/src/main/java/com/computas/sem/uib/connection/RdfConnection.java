@@ -10,6 +10,7 @@ import com.hp.hpl.jena.update.UpdateRequest;
 
 public interface RdfConnection {
 	public static final String ONTOLOGY_GRAPH = "ontology";
+	public static final String DATA_GRAPH = "data";
     public static final String LOCAL 	= "LocalConnection";
 	public static final String LMDB 	= "LmdbConnection";
 	

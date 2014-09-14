@@ -3,6 +3,7 @@ package com.computas.sem.uib;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import com.computas.sem.uib.connection.RdfConnection;
+import com.computas.sem.uib.provider.OntologyHelper;
 
 class InjectionConfiguration extends AbstractBinder {
 	private RdfConnection localConnection;
@@ -18,7 +19,7 @@ class InjectionConfiguration extends AbstractBinder {
 		//connections
 		bind(localConnection).named(RdfConnection.LOCAL).to(RdfConnection.class);
 		bind(lmdbConnection).named(RdfConnection.LMDB).to(RdfConnection.class);
-		
+		bind(OntologyHelper.class).to(OntologyHelper.class);
 	}
 }
 
