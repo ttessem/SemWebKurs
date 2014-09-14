@@ -65,6 +65,18 @@ public class PersonProvider {
 		ontoHelper.addKjenner(id, kjennerId, data);
 		return Response.noContent().build();
 	}
+	
+	@PUT
+	@Path("{id}/harSett")
+	public Response addHarSett(@PathParam("id") String id, String film) {
+		Model data = getModel();
+		if(!ontoHelper.isPerson(id, data)){
+			return Response.status(404).build();
+		}
+		
+		ontoHelper.addHarSett(id, film, data);
+		return Response.noContent().build();
+	}
 
 	private Model getModel() {
 		return local.getModel(RdfConnection.DATA_GRAPH);

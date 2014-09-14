@@ -48,6 +48,12 @@ public class OntologyHelper {
 	public void addKjenner(String id, String kjennerId, Model data) {
 		data.add(getPersonURI(id), getKjennerPredicate(), getPersonURI(kjennerId));
 	}
+	
+	public void addHarSett(String id, String film, Model data) {
+		data.add(getPersonURI(id), getHarSettPredicate(), ResourceFactory.createResource(film));
+	}
+
+
 
 	public Model getPersonFromModel(String id, Model data) {
 		Query q = QueryFactory.create("DESCRIBE <"+getPersonURI(id).getURI()+">");
@@ -107,6 +113,10 @@ public class OntologyHelper {
 	
 	private Property getKjennerPredicate() {
 		return getPropertyWithLabel("kjenner");
+	}	
+	
+	private Property getHarSettPredicate() {
+		return getPropertyWithLabel("harSett");
 	}
 
 	private Property getPropertyWithLabel(String label) {
@@ -131,4 +141,5 @@ public class OntologyHelper {
 	private Resource getPersonURI(String id) {
 		return ResourceFactory.createResource("http://semweb.computas.com/uib/person/"+id);
 	}
+
 }
