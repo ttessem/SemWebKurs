@@ -1,27 +1,28 @@
-  'use strict';
+(function (angular) {
+    'use strict';
 
-  var app = angular.module('app', 
-    ['ngRoute']);
+    var app = angular.module('app',
+        ['ngRoute']);
 
-  app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-      .when('/', {
-         templateUrl: 'views/main.html',
-         controller: 'MainCtrl'
-       })
-      .when('/person', {
-        templateUrl: 'views/person.html',
-        controller: 'PersonCtrl'
-      })
-      .when('/movie', {
-        templateUrl: 'views/movie.html',
-        controller: 'MovieCtrl'
-      })
-      .otherwise({
-        redirectTo: '/person'
-      });
-  }]);
-
+    app.config(['$routeProvider', function ($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
+            })
+            .when('/person', {
+                templateUrl: 'views/person.html',
+                controller: 'PersonCtrl'
+            })
+            .when('/movie', {
+                templateUrl: 'views/movie.html',
+                controller: 'MovieCtrl'
+            })
+            .otherwise({
+                redirectTo: '/person'
+            });
+    }]);
+}(angular));
 
 
 
