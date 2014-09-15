@@ -10,7 +10,7 @@
   	$scope.url = "http://localhost/person";
   	$scope.venner = PersonService.getAllPersons();
   	$scope.selected;
-  	Person.get({}, function())
+//  	Person.get({}, function())
 
   	$scope.submitperson = function() {
 		console.log("submit person");

@@ -2,7 +2,7 @@
 
 'use strict';
 
-app.factory('PersonService', ['$resource', function($resource) {
+app.factory('PersonService', [ function() {
 	var PersonService = {
 		getAllPersons: function() {
 			return [
@@ -16,27 +16,26 @@ app.factory('PersonService', ['$resource', function($resource) {
 		},
 		createPerson: function(person) {
 			console.log("Person: " + person);
-			return $resource(CONFIG.API_BASE_URL + "uib/person", {},
-				{ create: {
-					method: 'POST'
-				}})
+			
 		}	
 	};
 
 	return PersonService;		
 
 	}]);
+
 app.factory('Person',['$resource', function($resource){
 	return $resource(CONFIG.API_BASE_URL + "uib/person", {}, {
 		getPersons: {
-			method: 'GET'
+			method: 'GET',
 			isArray: true
-		}
+		},
 		createPerson: {
 			method: 'POST'
 		}
 	})
 }]);
+
 app.factory('HentPerson', ['$resource', function($resource) {
 	return $resource(CONFIG.API_BASE_URL + ":id", {}, {
 		hentPerson: {
@@ -53,6 +52,7 @@ app.factory('Kjenner', ['$resource', function($resource) {
 		}
 	})
 }]);
+
 app.factory('HarSett', ['$resource', function($resource) {
 	return $resource(CONFIG.API_BASE_URL + ":id/harSett", {}, {
 		harSett: {
@@ -61,4 +61,4 @@ app.factory('HarSett', ['$resource', function($resource) {
 	})
 }]);
 
-})(angular.CONFIG.API_BASE_URL + "uib/person"module('app'));
+})(angular.module('app'));
