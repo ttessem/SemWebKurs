@@ -10,10 +10,20 @@
 		<input ng-model="age"></input><br>
 		<label>Study program</label>
 		<input ng-model="study_program"><br>
-		<button>Submit</button>
+		<button class="btn btn-default">Submit</button>
 	</form>
 	{{name}}
 	{{gender}}
 	{{age}}
 	{{study_program}}
+	<br>
+	<div>
+		<div ng-show="name">
+			{{name}} kjenner <input auto-complete ui-items="venner" ng-model="selected"> <button class="btn btn-default" ng-click="lagreKjenner(selected)">Lagre</button> <br>
+		</div>
+		<div ng-show="selected" ng-repeat="venn in venner">
+			
+				{{name}} har venn {{venn.firstName}}
+		</div>
+	</div>
 </div>
