@@ -13,7 +13,7 @@ public class Utils {
 
 	public static Response getModelAsJsonLd(Model m) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		m.write(out, Utils.RDF_FORMAT);
+		m.write(out, RDF_FORMAT);
 		return Response.ok(out.toString()).build();
 	}
 
