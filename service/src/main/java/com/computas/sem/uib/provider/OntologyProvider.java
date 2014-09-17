@@ -18,7 +18,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import static com.computas.sem.uib.provider.Utils.*;
 
-@Path("ontologi")
+@Path("/service/ontologi")
 public class OntologyProvider {
 	@Inject private OntologyHelper ontoHelper;
 	

@@ -18,7 +18,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 
 import static com.computas.sem.uib.provider.Utils.*;
 
-@Path("uib/person")
+@Path("/service/uib/person")
 public class PersonProvider {
 	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
 	@Inject private OntologyHelper ontoHelper;
