@@ -30,7 +30,7 @@ import com.hp.hpl.jena.shared.PrefixMapping;
 
 import static com.computas.sem.uib.provider.Utils.*;
 
-@Path("movie")
+@Path("/service/movie")
 public class MovieProvider {
 	
 	private static final String LINKEDMDB_SPARQL = "http://www.linkedmdb.org/sparql";

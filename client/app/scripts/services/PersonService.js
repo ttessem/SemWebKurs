@@ -25,10 +25,10 @@ app.factory('PersonService', [ function() {
 	}]);
 
 app.factory('Person',['$resource', function($resource){
-	return $resource(CONFIG.API_BASE_URL + "uib/person", {}, {
-		getPersons: {
-			method: 'GET',
-			isArray: true
+	return $resource(CONFIG.API_BASE_URL + "service/uib/person", {}, {
+		getAllPersons: {
+			method: 'GET'
+			
 		},
 		createPerson: {
 			method: 'POST'
@@ -60,5 +60,6 @@ app.factory('HarSett', ['$resource', function($resource) {
 		}
 	})
 }]);
+
 
 })(angular.module('app'));

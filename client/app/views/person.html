@@ -1,31 +1,35 @@
 <h1>Person</h1>
 <div>
+	{{wholeGraph}}
 	<form ng-submit="submitperson()">
 		<label>First name</label>
-		<input ng-model="firstName">
+		<input ng-model="person.fornavn">
 		<label>Last name</label>
-		<input ng-model="lastName"><br> 
-		<label>Gender</label>	
+		<input ng-model="person.etternavn"><br> 
+<!-- 		<label>Gender</label>	
 		<input type="radio" name="gender" value="male" ng-model="gender">Male
-		<input type="radio" name="gender" value="female" ng-model="gender">Female<br>
+		<input type="radio" name="gender" value="female" ng-model="gender">Female<br> -->
 		<label>Age</label>
-		<input ng-model="age"></input><br>
+		<input ng-model="person.alder"></input><br>
 		<label>Study program</label>
-		<input ng-model="study_program"><br>
+		<input ng-model="person.studieretning"><br>
 		<button class="btn btn-default">Submit</button>
-	</form>
-	{{firstName}} {{lastName}}
-	{{gender}}
-	{{age}}
-	{{study_program}}
+	.@</form>
+	{{person.fornavn}} {{person.etternavn}}
+	{{person.alder}}
+	{{person.studieretning}}
 	<br>
 	<div>
 		<div ng-show="name">
-			{{firstName}} kjenner <input auto-complete ui-items="venner" ng-model="selected"> <button class="btn btn-default" ng-click="lagreKjenner(selected)">Lagre</button> <br>
+			{{person.fornavn}} kjenner <input auto-complete ui-items="venner" ng-model="selected"> <button class="btn btn-default" ng-click="lagreKjenner(selected)">Lagre</button> <br>
 		</div>
 		<div ng-show="selected" ng-repeat="venn in venner">
 			
-				{{firstName}} har venn {{venn.firstName}}
+				{{person.fornavn}} har venn {{venn.firstName}}
 		</div>
+	</div>
+	<div>
+		Response: {{graph}} <br>
+		Test: {{test.c}}
 	</div>
 </div>
