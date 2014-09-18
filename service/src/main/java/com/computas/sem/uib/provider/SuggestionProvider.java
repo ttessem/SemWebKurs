@@ -23,7 +23,6 @@ public class SuggestionProvider {
 		return getModelAsJsonLd(ontoHelper.suggestPersonsFromModel(name, getModel()));
 	}
 	
-
 	private Model getModel() {
 		return local.getModel(RdfConnection.DATA_GRAPH);
 	}
