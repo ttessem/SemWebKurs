@@ -74,8 +74,16 @@ public class PersonProvider {
 		if(!ontoHelper.isPerson(id, data)){
 			return Response.status(404).build();
 		}
-		
+		if(film == null || film.isEmpty()){
+			return Response.status(400).build();
+		}
+		Model movieModel = movieHelper.getMovie(film);
+		if(movieModel.isEmpty()){
+			return Response.status(400).build();
+		}
 		ontoHelper.addHarSett(id, film, data);
+		local.addModel(movieModel, RdfConnection.DATA_GRAPH);
+		
 		return Response.noContent().build();
 	}
 

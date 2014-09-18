@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.atlas.lib.ArrayUtils;
 
+import com.computas.sem.uib.connection.RdfConnection;
 import com.computas.sem.uib.connection.SparqlConnection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +35,17 @@ import static com.computas.sem.uib.provider.Utils.*;
 
 @Path("/service/movie")
 public class MovieProvider {
+	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
 	@Inject private MovieHelper movieHelper;
 	private static final String LINKEDMDB_SPARQL = "http://www.linkedmdb.org/sparql";
 
+	
+	@GET
+	@Produces(MEDIA_TYPE)
+	public Response getAllMovies(){
+		return getModelAsJsonLd(movieHelper.getAllMovies(getModel()));
+	}
+	
 	@GET
 	@Produces(MEDIA_TYPE)
 	@Path("search")
@@ -46,6 +56,10 @@ public class MovieProvider {
 			limit = 10;
 		
 		return getModelAsJsonLd(movieHelper.searchForMovie(title, limit));
+	}
+	
+	private Model getModel() {
+		return local.getModel(RdfConnection.DATA_GRAPH);
 	}
 }
 
