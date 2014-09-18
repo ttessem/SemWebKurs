@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('app',
-        ['ngRoute']);
+        ['ngRoute', 'ngResource']);
 
     app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
