@@ -12,6 +12,7 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -53,8 +54,6 @@ public class OntologyHelper {
 		data.add(getPersonURI(id), getHarSettPredicate(), ResourceFactory.createResource(film));
 	}
 
-
-
 	public Model getPersonFromModel(String id, Model data) {
 		Query q = QueryFactory.create("DESCRIBE <"+getPersonURI(id).getURI()+">");
 		QueryExecution queryExec = QueryExecutionFactory.create(q, data);
@@ -63,6 +62,28 @@ public class OntologyHelper {
 		}
 		finally {
 			queryExec.close();
+		}
+	}
+	
+	public Model suggestPersonsFromModel(String name, Model data){
+		try {
+			Query q = QueryFactory.create("DESCRIBE ?person " 
+					+ "WHERE {"
+					+ 	"?person <"+getFornavnPredicate().getURI()+"> ?fornavn ." 
+					+ 	"?person <"+getEtternavnPredicate().getURI()+"> ?etternavn ."
+					+ 	"FILTER(STRSTARTS(LCASE(?fornavn), LCASE(\""+name+"\")) || "
+							+ "STRSTARTS(LCASE(?etternavn), LCASE(\""+name+"\"))"
+							+ ")" 
+					+ "}");
+			QueryExecution queryExec = QueryExecutionFactory.create(q, data);
+			try {
+				return queryExec.execDescribe();
+			} finally {
+				queryExec.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ModelFactory.createDefaultModel();
 		}
 	}
 	

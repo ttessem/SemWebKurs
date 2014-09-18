@@ -22,6 +22,7 @@ import static com.computas.sem.uib.provider.Utils.*;
 public class PersonProvider {
 	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
 	@Inject private OntologyHelper ontoHelper;
+	@Inject private MovieHelper movieHelper;
 	
 	@GET
 	@Produces(MEDIA_TYPE)
