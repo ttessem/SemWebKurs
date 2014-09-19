@@ -1,7 +1,7 @@
 <h1>Person</h1>
-<div>
-	{{wholeGraph}}
-	<form ng-submit="submitperson()">
+<div class="col-md-7">
+
+        <form ng-submit="submitperson()">
 		<label>First name</label>
 		<input ng-model="person.fornavn">
 		<label>Last name</label>
@@ -10,18 +10,31 @@
 		<input type="radio" name="gender" value="male" ng-model="gender">Male
 		<input type="radio" name="gender" value="female" ng-model="gender">Female<br> -->
 		<label>Age</label>
-		<input ng-model="person.alder"></input><br>
+		<input ng-model="person.alder"><br>
 		<label>Study program</label>
 		<input ng-model="person.studieretning"><br>
 		<button class="btn btn-default">Submit</button>
-	.@</form>
+	</form>
 	{{person.fornavn}} {{person.etternavn}}
 	{{person.alder}}
 	{{person.studieretning}}
 	<br>
 	<div>
-		<div ng-show="name">
-			{{person.fornavn}} kjenner <input auto-complete ui-items="venner" ng-model="selected"> <button class="btn btn-default" ng-click="lagreKjenner(selected)">Lagre</button> <br>
+		<div ng-show="currentPerson">
+			{{currentPerson["firstName"]}} kjenner
+            <input  type="text"
+                    ng-model="nyvenn"
+                    typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
+                    typeahead-on-select="onMemberSelect($item)"
+                    class="form-control"
+                    placeholder="Venn"
+                    typeahead-input-formatter = "selectedInputFormatter()"
+                    tag-paste="addKjenner"
+                    />
+
+
+            <!--input auto-complete ui-items="venner" ng-model="venn"-->
+            <!--button class="btn btn-default" ng-click="lagreKjenner(venn)">Lagre</button> <br-->
 		</div>
 		<div ng-show="selected" ng-repeat="venn in venner">
 			
@@ -29,7 +42,13 @@
 		</div>
 	</div>
 	<div>
-		Response: {{graph}} <br>
+		Response: {{graph["@id"]}} {{graph["firstName"]}} {{graph["lastName"]}} {{graph["alder"]}} {{graph["studieretning"]}} <br>
 		Test: {{test.c}}
 	</div>
+</div>
+<div class="col-md-5">
+    <div ng-repeat="node in wholeGraph">
+        <!--{{node["@id"]}} {{node["@type"]}}-->
+        <span class="btn-link" ng-click="putKjenner(node)">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
+    </div>
 </div>
