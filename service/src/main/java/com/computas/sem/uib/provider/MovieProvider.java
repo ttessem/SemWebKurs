@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.jena.atlas.lib.ArrayUtils;
 
+import com.computas.sem.uib.connection.RdfConnection;
 import com.computas.sem.uib.connection.SparqlConnection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,38 +35,31 @@ import static com.computas.sem.uib.provider.Utils.*;
 
 @Path("/service/movie")
 public class MovieProvider {
-	
+	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
+	@Inject private MovieHelper movieHelper;
 	private static final String LINKEDMDB_SPARQL = "http://www.linkedmdb.org/sparql";
 
+	
 	@GET
 	@Produces(MEDIA_TYPE)
-	@Consumes(MediaType.TEXT_PLAIN)
-	public Response getMovieByTitle(@QueryParam("title") String title) {
-		Query q = QueryFactory.create(
-			"PREFIX dc: <http://purl.org/dc/terms/> \n"+
-			"PREFIX movie: <http://data.linkedmdb.org/resource/movie/> \n"+
-			"PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n"+		
-			"CONSTRUCT {"+
-				"?movie a movie:film ."+
-				"?movie dc:title \""+title+"\" ."+
-				"?movie dc:date ?date ." +
-				"?movie foaf:page ?page ." +
-			"}"+
-			"WHERE { "+
-				"SERVICE <"+LINKEDMDB_SPARQL+"> {"+
-					"SELECT ?movie ?date ?page "+
-					"WHERE { "+
-						"?movie a movie:film . "+
-						"?movie dc:title \""+title+"\" . "+
-						"?movie dc:date ?date ."+
-						"?movie foaf:page ?page ."+
-					"}"+
-				"}"+
-				"FILTER(STRSTARTS(STR(?page), \"http://www.imdb.com/title\"))"+
-			"} LIMIT 100 ");
-		Model movies = ModelFactory.createDefaultModel();
-		QueryExecutionFactory.create(q, movies).execConstruct(movies);
+	public Response getAllMovies(){
+		return getModelAsJsonLd(movieHelper.getAllMovies(getModel()));
+	}
+	
+	@GET
+	@Produces(MEDIA_TYPE)
+	@Path("search")
+	public Response searchMovieByTitle(@QueryParam("title") String title, @QueryParam("limit") int limit) {
+		if(limit == 0)
+			limit = 4;
+		else if(limit > 10)
+			limit = 10;
 		
-		return getModelAsJsonLd(movies);		
+		return getModelAsJsonLd(movieHelper.searchForMovie(title, limit));
+	}
+	
+	private Model getModel() {
+		return local.getModel(RdfConnection.DATA_GRAPH);
 	}
 }
+
