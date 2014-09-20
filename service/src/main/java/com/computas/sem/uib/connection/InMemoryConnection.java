@@ -15,8 +15,12 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
+import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.reasoner.Reasoner;
+import com.hp.hpl.jena.reasoner.ReasonerFactory;
+import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.sparql.core.DatasetGraph;
 import com.hp.hpl.jena.sparql.core.DatasetGraphFactory;
 import com.hp.hpl.jena.update.UpdateAction;
@@ -45,6 +49,7 @@ public class InMemoryConnection implements RdfConnection {
         datasetGraph = DatasetGraphFactory.createMem();
         grapNodeMap = new HashMap();
         addModel(baseOntology, RdfConnection.ONTOLOGY_GRAPH);
+        baseOntology = null;
     }
 
     @PreDestroy
@@ -57,7 +62,8 @@ public class InMemoryConnection implements RdfConnection {
     	/**
     	 * TODO:SERIØS HACK!!! DefaultGraph er ikke union av alle named graphs :/ HVORDAN!?!?!?
     	 */
-    	Model m = ModelFactory.createUnion(getModel(DATA_GRAPH), baseOntology);
+    	InfModel inferencedOntology = ModelFactory.createInfModel(ReasonerRegistry.getRDFSReasoner(), getModel(RdfConnection.ONTOLOGY_GRAPH));
+    	Model m = ModelFactory.createUnion(getModel(DATA_GRAPH), inferencedOntology);
     	return QueryExecutionFactory.create(query, m);
     }
 
