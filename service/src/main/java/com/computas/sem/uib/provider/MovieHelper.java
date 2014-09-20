@@ -91,4 +91,25 @@ public class MovieHelper {
 			queryExec.close();
 		}
 	}
+
+	public Model suggestMoviesFromModel(String title, Model data) {
+		try {
+			Query q = QueryFactory.create(
+					  "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n"
+					+ "DESCRIBE ?movie " 
+					+ "WHERE {"
+					+ 	"?movie foaf:name ?title ." 
+					+ 	"FILTER(STRSTARTS(LCASE(?title), LCASE(\""+title+"\")))" 
+					+ "}");
+			QueryExecution queryExec = QueryExecutionFactory.create(q, data);
+			try {
+				return queryExec.execDescribe();
+			} finally {
+				queryExec.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ModelFactory.createDefaultModel();
+		}
+	}
 }

@@ -16,11 +16,18 @@ import com.hp.hpl.jena.rdf.model.Model;
 public class SuggestionProvider {
 	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
 	@Inject private OntologyHelper ontoHelper;
+	@Inject private MovieHelper movieHelper;
 
 	@GET
 	@Path("person")
 	public Response getPersonSuggestions(@QueryParam("name") String name) {
 		return getModelAsJsonLd(ontoHelper.suggestPersonsFromModel(name, getModel()));
+	}
+	
+	@GET
+	@Path("movie")
+	public Response getMovieSuggestions(@QueryParam("title") String title){
+		return getModelAsJsonLd(movieHelper.suggestMoviesFromModel(title, getModel()));
 	}
 	
 	private Model getModel() {
