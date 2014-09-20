@@ -20,13 +20,13 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.sparql.util.ResultSetUtils;
 
-import static com.computas.sem.uib.provider.Utils.getModelAsJsonLd;
+import static com.computas.sem.uib.helpers.Utils.getModelAsJsonLd;
 
 @Path("/service/sparql")
 public class SparqlProvider {
 	
 	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
-
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces("text/turtle")
@@ -51,6 +51,7 @@ public class SparqlProvider {
 	public Response postSparqlSelect(@FormParam("query") String queryString) {
 		try {
 			Query query = QueryFactory.create(queryString);
+			System.out.println(query.toString());
 			if(query.isSelectType()){
 				return Response.ok(ResultSetFormatter.asXMLString(local.executeSelect(query))).build();
 			}

@@ -20,6 +20,7 @@ import org.apache.jena.atlas.lib.ArrayUtils;
 
 import com.computas.sem.uib.connection.RdfConnection;
 import com.computas.sem.uib.connection.SparqlConnection;
+import com.computas.sem.uib.helpers.MovieHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.hpl.jena.query.Query;
@@ -31,7 +32,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.shared.PrefixMapping;
 
-import static com.computas.sem.uib.provider.Utils.*;
+import static com.computas.sem.uib.helpers.Utils.*;
 
 @Path("/service/movie")
 public class MovieProvider {

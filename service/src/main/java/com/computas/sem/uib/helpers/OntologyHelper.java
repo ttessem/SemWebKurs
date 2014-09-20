@@ -1,4 +1,4 @@
-package com.computas.sem.uib.provider;
+package com.computas.sem.uib.helpers;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -159,7 +159,7 @@ public class OntologyHelper {
 		return Integer.toString(personID++);
 	}
 	
-	private Resource getPersonURI(String id) {
+	public Resource getPersonURI(String id) {
 		return ResourceFactory.createResource("http://semweb.computas.com/uib/person/"+id);
 	}
 

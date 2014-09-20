@@ -11,12 +11,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import com.computas.sem.uib.helpers.OntologyHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import static com.computas.sem.uib.provider.Utils.*;
+import static com.computas.sem.uib.helpers.Utils.*;
 
 @Path("/service/ontologi")
 public class OntologyProvider {

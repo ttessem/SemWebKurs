@@ -1,4 +1,4 @@
-package com.computas.sem.uib.provider;
+package com.computas.sem.uib.helpers;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;

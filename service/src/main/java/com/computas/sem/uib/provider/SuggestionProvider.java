@@ -1,6 +1,6 @@
 package com.computas.sem.uib.provider;
 
-import static com.computas.sem.uib.provider.Utils.getModelAsJsonLd;
+import static com.computas.sem.uib.helpers.Utils.getModelAsJsonLd;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,6 +10,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.computas.sem.uib.connection.RdfConnection;
+import com.computas.sem.uib.helpers.MovieHelper;
+import com.computas.sem.uib.helpers.OntologyHelper;
 import com.hp.hpl.jena.rdf.model.Model;
 
 @Path("/service/suggest")
