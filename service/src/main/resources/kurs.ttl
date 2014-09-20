@@ -1,9 +1,9 @@
-# baseURI: http://data.computas.com/kurs
+# baseURI: http://semweb.computas.com/service/ontologi
 # imports: http://xmlns.com/foaf/0.1/
 
 @prefix dbpedia: <http://dbpedia.org/resource/> .
 @prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
-@prefix kurs: <http://data.computas.com/kurs#> .
+@prefix kurs: <http://semweb.computas.com/service/ontologi#> .
 @prefix movie: <http://data.linkedmdb.org/resource/movie/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -11,7 +11,7 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://data.computas.com/kurs>
+<http://semweb.computas.com/service/ontologi>
   rdf:type owl:Ontology ;
   owl:imports <http://xmlns.com/foaf/0.1/> ;
   owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;

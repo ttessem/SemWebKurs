@@ -1,5 +1,6 @@
 package com.computas.sem.uib.provider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import javax.inject.Inject;
@@ -9,7 +10,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +21,19 @@ import static com.computas.sem.uib.provider.Utils.*;
 @Path("/service/ontologi")
 public class OntologyProvider {
 	@Inject private OntologyHelper ontoHelper;
-	
+
 	@GET
 	@Produces(MEDIA_TYPE)
 	public Response getOntologi() {
 		return getModelAsJsonLd(ontoHelper.getOntologyModel());
+	}
+	
+	@GET
+	@Produces("text/turtle")
+	public Response getOntologiTurtle() {		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ontoHelper.getOntologyModel().write(out, "TURTLE");
+		return Response.ok(out.toString()).build();
 	}
 	
 	@POST

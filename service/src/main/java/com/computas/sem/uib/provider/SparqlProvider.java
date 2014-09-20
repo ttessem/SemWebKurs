@@ -16,6 +16,8 @@ import javax.ws.rs.core.Response;
 import com.computas.sem.uib.connection.RdfConnection;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.hp.hpl.jena.sparql.util.ResultSetUtils;
 
 import static com.computas.sem.uib.provider.Utils.getModelAsJsonLd;
 
@@ -27,9 +29,8 @@ public class SparqlProvider {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces("text/turtle")
-	public Response sparql(@FormParam("query") String queryString) {
+	public Response sparqlConstruct(@FormParam("query") String queryString) {
 		try {
-			System.out.println(queryString);
 			Query query = QueryFactory.create(queryString);
 			if (query.isDescribeType() || query.isConstructType()) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -40,9 +41,22 @@ public class SparqlProvider {
 			e.printStackTrace();
 			return Response.serverError().build();
 		}
-//		else if(query.isSelectType()){
-//			return getModelAsJsonLd(local.executeSelect(query)); 
-//		}
+		return Response.status(422).build();
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces("application/sparql-results+xml")
+	public Response sparqlSelect(@FormParam("query") String queryString) {
+		try {
+			Query query = QueryFactory.create(queryString);
+			if(query.isSelectType()){
+				return Response.ok(ResultSetFormatter.asXMLString(local.executeSelect(query))).build();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
 		return Response.status(422).build();
 	}
 }
