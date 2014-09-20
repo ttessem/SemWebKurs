@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -26,12 +27,18 @@ public class SparqlProvider {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces("text/turtle")
-	public Response sparql(@QueryParam("query") String queryString) {
-		Query query = QueryFactory.create(queryString);
-		if(query.isDescribeType() || query.isConstructType()){ 
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			local.executeConstruct(query).write(out, "TURTLE");
-			return Response.ok(out.toString()).build();
+	public Response sparql(@FormParam("query") String queryString) {
+		try {
+			System.out.println(queryString);
+			Query query = QueryFactory.create(queryString);
+			if (query.isDescribeType() || query.isConstructType()) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				local.executeConstruct(query).write(out, "TURTLE");
+				return Response.ok(out.toString()).build();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.serverError().build();
 		}
 //		else if(query.isSelectType()){
 //			return getModelAsJsonLd(local.executeSelect(query)); 
