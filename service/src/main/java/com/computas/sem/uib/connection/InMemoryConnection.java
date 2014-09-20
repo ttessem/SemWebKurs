@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import arq.qexpr;
+
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.GraphUtil;
 import com.hp.hpl.jena.graph.Node;
@@ -92,6 +94,17 @@ public class InMemoryConnection implements RdfConnection {
             queryExecution.close();
         }
     }
+    
+	@Override
+	public boolean executeAsk(Query query) {
+        QueryExecution queryExecution = createQueryExecution(query);
+
+        try {
+            return queryExecution.execAsk();
+        } finally {
+            queryExecution.close();
+        }
+	}
 
     @Override
     public Model getModel(String graphName) {

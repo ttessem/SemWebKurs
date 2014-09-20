@@ -54,6 +54,9 @@ public class SparqlProvider {
 			if(query.isSelectType()){
 				return Response.ok(ResultSetFormatter.asXMLString(local.executeSelect(query))).build();
 			}
+			else if(query.isAskType()){
+				return Response.ok(ResultSetFormatter.asXMLString(local.executeAsk(query))).build();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.serverError().build();

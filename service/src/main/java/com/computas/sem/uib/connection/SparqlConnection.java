@@ -51,6 +51,12 @@ public class SparqlConnection implements RdfConnection {
 	}
 
 	@Override
+	public boolean executeAsk(Query query) {
+		QueryExecution queryExecution = createQueryExecution(query);
+		return queryExecution.execAsk();
+	}
+	
+	@Override
 	public Model getModel(String graphName) {
 		return executeConstruct(QueryFactory.create("CONSTRUCT {?s ?p ?o} WHERE { GRAPH "+asIRI(graphName)+" {?s ?p ?o}}"));
 	}

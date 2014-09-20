@@ -29,4 +29,6 @@ public interface RdfConnection {
     public void init();
     @PreDestroy
     public void destroy();
+
+	boolean executeAsk(Query query);
 }
