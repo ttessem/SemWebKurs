@@ -1,8 +1,8 @@
 (function(app){
     'use strict';
 
-    app.controller('PersonCtrl', ['$scope', '$location', '$http', 'PersonService', 'HentPerson', 'Person', 'Kjenner',
-        function ($scope, $location, $http, PersonService, HentPerson, Person, Kjenner) {
+    app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies', 'PersonService', 'HentPerson', 'Person', 'Kjenner',
+        function ($scope, $location, $http, $cookies, PersonService, HentPerson, Person, Kjenner) {
             $scope.submitperson = function() {
                 alert("Something submitted");
             }
@@ -84,9 +84,10 @@
                         alder: person.alder,
                         studieretning: person.studieretning}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function(response){
+                }).success(function(response, statusResponse, headers){
                     console.log("Suksess");
                     console.log(response);
+                    $cookies.cx_secret = headers("cx_secret");
                     $scope.currentPerson = response["@graph"][0];
                     //console.log(response.@graph);
                     //console.log(response.@context);
