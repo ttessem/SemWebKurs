@@ -9,6 +9,11 @@ import org.glassfish.jersey.server.ResourceConfig;
 import com.computas.sem.uib.connection.InMemoryConnection;
 import com.computas.sem.uib.connection.RdfConnection;
 import com.computas.sem.uib.connection.SparqlConnection;
+import com.computas.sem.uib.helpers.OntologyHelper;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -46,8 +51,10 @@ public class PoCApplication extends ResourceConfig {
 		for(RdfConnection c: connections){
 			c.init();
 		}
+		// legg til data fra disk til minne
 		localCon.setModel(data, RdfConnection.DATA_GRAPH);
 		localCon.setModel(auth, RdfConnection.AUTH_GRAPH);
+		
 	}
 	
 	public void tearDown(){
