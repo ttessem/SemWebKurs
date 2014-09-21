@@ -1,9 +1,9 @@
 <h1>{{page.title}}</h1>
 <form name="add_movie" ng-submit="save(post)">
-	<label>Title</label>
-	<input ng-model="post.title">
+	<label>Søk etter film:</label>
+	<input ng-model="searchInput">
 
-	<button class="btn btn-default" type="submit">Save</button>
+	<button class="btn btn-default" type="submit" ng-click="getSearch(serachInput)">Søk</button>
 
     <h2 ng-show="posts.length">Filmer</h2>
     <ul ng-show="posts.length" ng-repeat="post in posts">

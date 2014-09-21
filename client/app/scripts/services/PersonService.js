@@ -37,7 +37,8 @@ app.factory('Kjenner', ['$resource', function($resource) {
 }]);
 
 app.factory('HarSett', ['$resource', function($resource) {
-	return $resource(CONFIG.API_BASE_URL + 'uib/person:id/harSett', {}, {
+
+	return $resource(CONFIG.API_BASE_URL + 'uib/person/:id/harSett', {}, {
 		harSett: {
 			method: 'PUT'
 		}

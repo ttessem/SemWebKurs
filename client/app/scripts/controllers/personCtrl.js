@@ -2,16 +2,29 @@
     'use strict';
 
     app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies', 
-        'HentPerson', 'Person', 'Kjenner', 'Config', '$resource',   
+        'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett', 
         function ($scope, $location, $http, $cookies, HentPerson, Person, Kjenner,
-            Config, $resource) {
+            Config, $resource, Search, HarSett) {
             
             $scope.method = 'POST';
             $scope.url = Config.apiBaseUrlPerson;
-            $scope.venner = Person.get();
             $scope.selected = {};
             $scope.graph = {};
             $scope.wholeGraph = {};
+            $scope.currentPersonId = null;
+
+            $scope.getSearch = function(movie) {
+                console.log("Movie: " + movie); 
+                if(movie.length >= 3) {
+                    var res = Search.get({title: movie});
+                    console.log(res);
+                    $scope.movieResults = res;
+                }
+            };
+            $scope.likesMovie = function(movieId) {
+                console.log("movie id: " + movieId);
+                HarSett.harSett({id: getId($scope.currentPerson["@id"])}, movieId);
+            };
 
             $http({method: 'GET', url: $scope.url}).success(function(response){
                 console.log(response["@graph"]);
@@ -24,34 +37,38 @@
 
             $scope.addKjenner = function (inputString) {
                 console.log("addKjenner");
-                console.log(inputString);
+                console.log($cookies.cx_secret);
 
-                $http({method: 'PUT',
-                        url: $scope.url + "/1/kjenner/2"
-                        // headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-                        // 'Access-Control-Allow-Headers': 'Content-Type'}
-                    })
-                .success(function(){
-                    console.log("Jipppiiiii");
-                }).error(function(err){
-                    console.log("æssshhh");
-                }); 
-                // Kjenner.addKjenner({
-                //     id: 1,
-                //     kjenner_id: getId(inputString["@id"])
-                // }, function () {
-                // $scope.feedbackTitle = "Your message has been edited";
-                //     HentPerson.hentPerson({
-                //         id: $scope.currentPerson["@id"]
-                //     }, function(person){
-                //         $scope.currentPerson = person;
-                //     }, function(err) {
-                //         console.log("Noe galt med hent person etter lagt til kjenner");
-                //     });
-                // }, function (err) {
-                //     $scope.error = "Something went wrong ;(";
-                //     console.log("Noe galt med legge til kjenner");
-                // });
+                // $http({method: 'PUT',
+                //         url: $scope.url + "/1/kjenner/2",
+                //         data: '',
+                //         headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+                //         'cx_auth': $cookies.cx_secret}
+                //         // 'Access-Control-Allow-Headers': 'Content-Type'}
+                //     })
+                // .success(function(){
+                //     console.log("Jipppiiiii");
+                // }).error(function(err){
+                //     console.log("æssshhh");
+                // }); 
+                Kjenner.addKjenner({
+                    id: getId($scope.currentPerson["@id"]),
+                    kjenner_id: getId(inputString["@id"])
+                }, function (response) {
+                    console.log("Svar fra addKjenner");
+                    console.log(response);
+
+                    HentPerson.hentPerson({
+                        id: $scope.currentPerson["@id"]
+                    }, function(person){
+                        $scope.currentPerson = person;
+                    }, function(err) {
+                        console.log("Noe galt med hent person etter lagt til kjenner");
+                    });
+                }, function (err) {
+                    $scope.error = "Something went wrong ;(";
+                    console.log("Noe galt med legge til kjenner");
+                });
 
             };
             $scope.selectedInputFormatter = function () {
@@ -62,8 +79,6 @@
             };
             $scope.lagreKjenner = function(node){
                 //$http({method: 'POST', url: $scope.url + :id/kjenner/:kjenner_id})
-
-
 
             };
             $scope.onMemberSelect = function (item) {
@@ -80,12 +95,15 @@
                         etternavn: person.etternavn,
                         alder: person.alder,
                         studieretning: person.studieretning}),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
                 }).success(function(response, statusResponse, headers){
                     console.log("Suksess");
                     console.log(response);
+                    console.log(headers('cx_secret'))
                     $cookies.cx_secret = headers("cx_secret");
                     $scope.currentPerson = response["@graph"][0];
+                    $scope.currentPersonId = $scope.currentPerson["@id"];
+
                 });
 
             };

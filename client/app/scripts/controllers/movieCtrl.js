@@ -9,11 +9,15 @@
         $scope.movies = movies;
       });
 
+      $scope.getSearch = function(searchInput) {
 
-      var searchResult = Search.get({title: $scope.searchInput}, function() {
-        $scope.searchResult = searchResult;
-      });
-
+        var searchResult = Search.get({title: searchInput}, function(result) {
+          
+        }).success(function(res) {
+          console.log(res);
+          $scope.searchResult = res;
+        });
+      };
     }]);
 	// app.controller('MovieCtrl', ['$scope', 'Post', function($scope, Post){
 	// $scope.page = { 'title': "Add movie"};

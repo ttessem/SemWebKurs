@@ -1,1 +1,70 @@
 <h1>{{welcomeText}}</h1>
+<div class="row">
+<h1>Registrer Person</h1>
+<div class="col-md-7">
+
+        <form ng-submit="submitperson()" ng-hide="currentPersonId">
+		<label>First name</label>
+		<input ng-model="person.fornavn">
+		<label>Last name</label>
+		<input ng-model="person.etternavn"><br> 
+<!-- 		<label>Gender</label>	
+		<input type="radio" name="gender" value="male" ng-model="gender">Male
+		<input type="radio" name="gender" value="female" ng-model="gender">Female<br> -->
+		<label>Age</label>
+		<input ng-model="person.alder"><br>
+		<label>Study program</label>
+		<input ng-model="person.studieretning"><br>
+		<button class="btn btn-default">Submit</button>
+	</form>
+	{{person.fornavn}} {{person.etternavn}}
+	{{person.alder}}
+	{{person.studieretning}}
+	<br>
+	<div>
+		<div ng-show="currentPerson">
+			{{currentPerson["firstName"]}} kjenner
+            <input  type="text"
+                    ng-model="nyvenn"
+                    typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
+                    typeahead-on-select="onMemberSelect($item)"
+                    class=""
+                    placeholder="søk etter venn"
+                    typeahead-input-formatter = "selectedInputFormatter()"
+                    tag-paste="addKjenner"
+                    />
+
+
+            <!--input auto-complete ui-items="venner" ng-model="venn"-->
+            <!--button class="btn btn-default" ng-click="lagreKjenner(venn)">Lagre</button> <br-->
+		</div>
+		<!-- <div ng-show="selected" ng-repeat="venn in venner">			
+				{{person.fornavn}} har venn {{venn.firstName}}
+		</div> -->
+	</div>
+	<div>
+		Response: {{graph["@id"]}} {{graph["firstName"]}} {{graph["lastName"]}} {{graph["alder"]}} {{graph["studieretning"]}} <br>
+	</div>
+</div>
+<div class="col-md-5">
+    <h2>Personer</h2>	
+    <div ng-repeat="node in wholeGraph">
+        <span class="btn-link" ng-click="putKjenner(node)">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
+    </div>
+</div>
+</div>
+<div ng-if="">
+<h1>{{page.title}}</h1>
+<form name="add_movie" ng-submit="save(post)">
+	<label>Søk etter film:</label>
+	<input ng-model="searchInput">
+
+	<button class="btn btn-default" type="submit" ng-click="getSearch(serachInput)">Søk</button>
+
+    <h2 ng-show="posts.length">Filmer</h2>
+    <ul ng-show="posts.length" ng-repeat="post in posts">
+        <li>{{post.title}} <button class="btn btn-danger" ng-click="delete(post)">Slett</button></li>
+    </ul>
+</form>
+<div>{{title}}</div>
+</div>
