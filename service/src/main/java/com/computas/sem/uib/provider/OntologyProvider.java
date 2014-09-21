@@ -23,7 +23,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 import static com.computas.sem.uib.helpers.Utils.*;
 
 @Path("/service/ontologi")
-@Api(value = "/service/admin/", description= "Admin data api")
+@Api(value = "/service/ontology/", description= "Admin data api")
 public class OntologyProvider {
 	@Inject private OntologyHelper ontoHelper;
 
@@ -57,8 +57,8 @@ public class OntologyProvider {
 	
 	@GET
 	@Produces(MEDIA_TYPE)
-	@Path("person/predicates")
-	@ApiOperation( value = "Get all predicates for Person.", notes = "Gets the predicates with person as domain. Produces json.")
+	@Path("/person/predicates")
+	@ApiOperation(value = "Get all predicates for Person.", notes = "Gets the predicates with person as domain. Produces json.")
 	public Response getPersonPredicates() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		return Response.ok(mapper.writeValueAsString(ontoHelper.getPersonPredicates())).build();
