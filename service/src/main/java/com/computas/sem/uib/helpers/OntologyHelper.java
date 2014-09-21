@@ -112,7 +112,7 @@ public class OntologyHelper {
 		return data.contains(getPersonURI(id), RDF_TYPE, getPersonClass());
 	}
 
-	private Resource getPersonClass() {
+	public Resource getPersonClass() {
 		return getSubjectWithLabel("Person");
 	}
 	
