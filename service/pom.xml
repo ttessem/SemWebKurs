@@ -27,7 +27,7 @@
                             <basePath>http://semweb.computas.com</basePath>
                             <outputTemplate>html.mustache</outputTemplate>
                             <mustacheFileRoot>${basedir}/src/main/resources/</mustacheFileRoot>
-                            <outputPath>${basedir}/target/generated/document.html</outputPath>
+                            <outputPath>/var/www/html/docs/index.html</outputPath>
                         </apiSource>
                     </apiSources>
                 </configuration>
