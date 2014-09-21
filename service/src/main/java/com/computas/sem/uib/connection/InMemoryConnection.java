@@ -37,7 +37,6 @@ import com.hp.hpl.jena.update.UpdateRequest;
  */
 public class InMemoryConnection implements RdfConnection {
 
-    private static final String DATA_GRAPH = "data";
 	private DatasetGraph datasetGraph;
     private Map<String, Node> grapNodeMap;
 	private Model baseOntology;
