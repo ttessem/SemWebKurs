@@ -2,10 +2,17 @@
 
 'use strict';
 	app.factory('Movie', ['$resource', function($resource){
-		return $resouce(CONFIG.API_BASE_URL , {}, {
-			
-		})
-	}])
+		return $resource(CONFIG.API_BASE_URL + "movie");
+	
+	}]);
+
+	app.factory("Search", ['$resource', function($resource){
+		return $resource(CONFIG.API_BASE_URL + "movie/search", 
+			{title: '@title', limit: '@limit'}, {
+
+		});
+	}]);
+
 // app.factory('PersonService', [ function() {
 // 	var PersonService = {
 // 		getAllPersons: function() {

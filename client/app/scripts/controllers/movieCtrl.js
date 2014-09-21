@@ -1,7 +1,19 @@
 (function(app){
 'use strict';
-    app.controller('MovieCtrl', ['$scope', function($scope){
-     $scope.page = { 'title': "Add movie"}; 
+    app.controller('MovieCtrl', ['$scope', 'Movie', 'Search', function($scope, Movie, Search){
+      $scope.page = { 'title': "Add movie"}; 
+      $scope.movies = [];
+      $scope.searchResult = [];
+      
+      var movies = Movie.get(function(){
+        $scope.movies = movies;
+      });
+
+
+      var searchResult = Search.get({title: $scope.searchInput}, function() {
+        $scope.searchResult = searchResult;
+      });
+
     }]);
 	// app.controller('MovieCtrl', ['$scope', 'Post', function($scope, Post){
 	// $scope.page = { 'title': "Add movie"};

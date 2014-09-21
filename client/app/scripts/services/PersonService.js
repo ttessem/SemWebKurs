@@ -1,31 +1,16 @@
 (function(app){
 
 'use strict';
+app.factory('Config', [function(){
+	return {
+		apiBaseUrl: "http://semweb.computas.com/service/",
+		apiBaseUrlPerson: "http://semweb.computas.com/service/uib/person",
+		resourcePersonBaseUrl: "http://semweb.computas.com/uib/person/"
+	}
+}]);
 
-app.factory('PersonService', [ function() {
-	var PersonService = {
-		getAllPersons: function() {
-			return [
-				"Lisa", "Lene", "Max", "Mari"
-				//{firstName: "Lisa", lastName: "Halvorsen"},
-				//{firstName: "Max", lastName: "Muller"}
-				];
-		},
-		getPerson: function(id) {
-			return {firstName: "Lisa", lastName: "Halvorsen"}
-		},
-		createPerson: function(person) {
-			console.log("Person: " + person);
-			
-		}	
-	};
-
-	return PersonService;		
-
-	}]);
-
-app.factory('Person',['$resource', function($resource){
-	return $resource(CONFIG.API_BASE_URL + "service/uib/person", {}, {
+app.factory('Person',['$resource', 'Config', function($resource, Config){
+	return $resource(Config.apiBaseUrlPerson, {}, {
 		getAllPersons: {
 			method: 'GET'
 			
@@ -33,32 +18,30 @@ app.factory('Person',['$resource', function($resource){
 		createPerson: {
 			method: 'POST'
 		}
-	})
+	});
 }]);
 
-app.factory('HentPerson', ['$resource', function($resource) {
-	return $resource(CONFIG.API_BASE_URL + ":id", {}, {
-		hentPerson: {
-			method: 'GET'
-		}
-	})
+app.factory('HentPerson', ['$resource', 'Config', function($resource, Config) {
+	return $resource(Config.apiBaseUrlPerson+ ':id');
 }]);
 
 
 app.factory('Kjenner', ['$resource', function($resource) {
-	return $resource(CONFIG.API_BASE_URL + ":id/kjenner/:kjenner_id", {}, {
+	return $resource(CONFIG.API_BASE_URL + 'uib/person/:id/kjenner/:kjenner_id', {}, {
 		addKjenner: {
-			method: 'PUT'
+			method: 'PUT',
+			params: {id : "@id", kjenner_id : "@kjenner_id"},
+			headers: {'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS'}
 		}
-	})
+	});
 }]);
 
 app.factory('HarSett', ['$resource', function($resource) {
-	return $resource(CONFIG.API_BASE_URL + ":id/harSett", {}, {
+	return $resource(CONFIG.API_BASE_URL + 'uib/person:id/harSett', {}, {
 		harSett: {
 			method: 'PUT'
 		}
-	})
+	});
 }]);
 
 

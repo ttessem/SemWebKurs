@@ -1,15 +1,15 @@
 (function(app){
     'use strict';
 
-    app.controller('PersonCtrl', ['$scope', '$location', '$http', 'PersonService', 'HentPerson', 'Person', 'Kjenner',
-        function ($scope, $location, $http, PersonService, HentPerson, Person, Kjenner) {
-            $scope.submitperson = function() {
-                alert("Something submitted");
-            }
+    app.controller('PersonCtrl', ['$scope', '$location', '$http',  
+        'HentPerson', 'Person', 'Kjenner', 'Config', '$resource',   
+        function ($scope, $location, $http, HentPerson, Person, Kjenner,
+            Config, $resource) {
+            
             $scope.method = 'POST';
-            $scope.url = CONFIG.API_BASE_URL + "service/uib/person";
-            $scope.venner = PersonService.getAllPersons();
-            $scope.selected;
+            $scope.url = Config.apiBaseUrlPerson;
+            $scope.venner = Person.get();
+            $scope.selected = {};
             $scope.graph = {};
             $scope.wholeGraph = {};
 
@@ -19,42 +19,39 @@
                 $scope.wholeGraph = response["@graph"];
             });
             var persons = Person.getAllPersons({}, function() {
-                console.log(persons)
+                console.log(persons);
             });
-            $scope.test = {"@c": "lalal"}
-//  	Person.get({}, function())
-            // Person.query().$promis.then(function (persons) { //getAllPersons({}, function(person){
-            // 	console.log(persons);
-            // 	//person.$promis.then(function(persons) {
-            // 	//	console.log(persons);
-            // 	})
-
-
-            // }
-            //, function(err) {
-
-            //});
 
             $scope.addKjenner = function (inputString) {
                 console.log("addKjenner");
                 console.log(inputString);
 
-                new Kjenner(inputString).$addKjenner({
-                    id: $scope.currentPerson["@id"],
-                    kjenner_id: inputString["@id"]
-                }, function () {
-                    $scope.feedbackTitle = "Your message has been edited";
-                    HentPerson.hentPerson({
-                        id: $scope.currentPerson["@id"]
-                    }, function(person){
-                        $scope.currentPerson = person;
-                    }, function(err) {
-                        console.log("Noe galt med hent person etter lagt til kjenner");
-                    });
-                }, function (err) {
-                    $scope.error = "Something went wrong ;(";
-                    console.log("Noe galt med legge til kjenner");
-                });
+                $http({method: 'PUT',
+                        url: $scope.url + "/1/kjenner/2"
+                        // headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+                        // 'Access-Control-Allow-Headers': 'Content-Type'}
+                    })
+                .success(function(){
+                    console.log("Jipppiiiii");
+                }).error(function(err){
+                    console.log("æssshhh");
+                }); 
+                // Kjenner.addKjenner({
+                //     id: 1,
+                //     kjenner_id: getId(inputString["@id"])
+                // }, function () {
+                // $scope.feedbackTitle = "Your message has been edited";
+                //     HentPerson.hentPerson({
+                //         id: $scope.currentPerson["@id"]
+                //     }, function(person){
+                //         $scope.currentPerson = person;
+                //     }, function(err) {
+                //         console.log("Noe galt med hent person etter lagt til kjenner");
+                //     });
+                // }, function (err) {
+                //     $scope.error = "Something went wrong ;(";
+                //     console.log("Noe galt med legge til kjenner");
+                // });
 
             };
             $scope.selectedInputFormatter = function () {
@@ -88,29 +85,14 @@
                     console.log("Suksess");
                     console.log(response);
                     $scope.currentPerson = response["@graph"][0];
-                    //console.log(response.@graph);
-                    //console.log(response.@context);
                 });
 
-                // var newPerson = new Person(person);
-                // console.log("newPerson");
-                // console.log(newPerson);
-                // var anNewThinf = newPerson.$save();
-                // console.log("aNewThing");
-                // console.log(anNewThinf);
-
-                // new Person(person).$createPerson({
-
-                // }, function(person) {
-                // 	//hva som skjer når funksjon returnerer
-                // 	console.log("Suksess");
-                // 	console.log(person);
-                // 	clearPersonInput();
-                // }, function(err) {
-                // 	//error
-                // 	$scope.error = "Noe gikk galt :(";
-                // });
             };
+            function getId(url){
+                var id = url.substring(Config.resourcePersonBaseUrl.length);
+                console.log(url + " id: " +id);
+                return id;
+            }
             function retrievePerson() {
                 var person = {};
                 person.fornavn = $scope.person.fornavn;
