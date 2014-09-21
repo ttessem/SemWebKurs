@@ -3,6 +3,7 @@ package com.computas.sem.uib.provider;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.ApplicationPath;
@@ -10,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -44,6 +46,30 @@ public class PersonProvider {
 	
 	public PersonProvider(@HeaderParam("cx_auth") String cx_auth) {
 		this.cx_auth = cx_auth;
+	}
+	
+//	@OPTIONS
+//	@Path("/getsample")
+//	public Response getOptions() {
+//		return Response
+//				.ok()
+//				.header("Access-Control-Allow-Origin", "*")
+//				.header("Access-Control-Allow-Methods",	"POST, GET, PUT, UPDATE, OPTIONS")
+//				.header("Access-Control-Allow-Headers",	"Content-Type, Accept, X-Requested-With, cx_auth")
+//				.build();
+//	}
+	
+	@OPTIONS
+	@PermitAll
+	public Response options() {
+		return Response.noContent().build();
+	}
+	
+	@OPTIONS
+	@PermitAll
+	@Path("{path:.*}")
+	public Response optionsAll(@PathParam("path") String path) {
+		return Response.noContent().build();
 	}
 	
 	@GET
@@ -94,7 +120,7 @@ public class PersonProvider {
 			return Response.status(404).build();
 		return getModelAsJsonLd(personModel);
 	}
-	
+
 	@PUT
 	@Path("/{id}/kjenner/{kjenner_id}")
 	@ApiOperation(value = "Put a knows relationship.", notes = "Puts a knows relationship between two persons. Requires authorization as cx_auth in header (the key returned from post person as cx_secret).")
