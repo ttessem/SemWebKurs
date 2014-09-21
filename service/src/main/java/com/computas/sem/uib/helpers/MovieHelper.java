@@ -9,7 +9,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 public class MovieHelper {
 	
-	private static final String MOVIE = "<http://schema.org/Movie>";
+	public static final String MOVIE = "<http://schema.org/Movie>";
 
 	public Model searchForMovie(String name, int limit){
 		try {

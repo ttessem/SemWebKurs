@@ -11,6 +11,7 @@ import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -22,9 +23,10 @@ public class OntologyHelper {
 	public static final Property RDF_TYPE = ResourceFactory.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 	public static final Property RDFS_LABEL = ResourceFactory.createProperty("http://www.w3.org/2000/01/rdf-schema#label");
 	public static final Property RDFS_DOMAIN = ResourceFactory.createProperty("http://www.w3.org/2000/01/rdf-schema#domain");
+	public static final Property CX_USERID = ResourceFactory.createProperty("http://semweb.computas.com/service/ontologi#userid");
 	
 	@Inject @Named(RdfConnection.LOCAL) private RdfConnection local;
-	private static int personID = 1;
+	private static int personID = 0;
 	
 	public Model getOntologyModel() {
 		return local.getModel(RdfConnection.ONTOLOGY_GRAPH);	
@@ -43,6 +45,7 @@ public class OntologyHelper {
 		data.add(person, getEtternavnPredicate(), etternavn);
 		data.addLiteral(person, getAlderPredicate(), alder);
 		data.add(person, getStudieretningPredicate(), studieretning);
+		data.add(person, CX_USERID, ResourceFactory.createTypedLiteral(Integer.parseInt(id)));
 		return id;
 	}
 	
@@ -112,7 +115,7 @@ public class OntologyHelper {
 		return data.contains(getPersonURI(id), RDF_TYPE, getPersonClass());
 	}
 
-	private Resource getPersonClass() {
+	public Resource getPersonClass() {
 		return getSubjectWithLabel("Person");
 	}
 	
@@ -156,6 +159,21 @@ public class OntologyHelper {
 	}
 	
 	private String getNewPersonId(){
+		if(personID == 0){
+			Model data = local.getModel(RdfConnection.DATA_GRAPH);
+			// hent ut største person id fra modellen
+			QueryExecution queryExecution = QueryExecutionFactory.create(QueryFactory.create("SELECT ?id WHERE { "
+					+ 	"?person <"+OntologyHelper.CX_USERID.toString()+"> ?id . "
+					+ " } ORDER BY DESC(?id)"), data);
+			ResultSet idSelect = queryExecution.execSelect();
+			if(idSelect.hasNext()) {
+				int id = idSelect.next().getLiteral("id").getInt();
+				personID = id+1;
+			}
+			else {
+				personID = 1;
+			}
+		}
 		return Integer.toString(personID++);
 	}
 	
