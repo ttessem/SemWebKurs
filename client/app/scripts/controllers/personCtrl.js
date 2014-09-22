@@ -23,7 +23,19 @@
             };
             $scope.likesMovie = function(movieId) {
                 console.log("movie id: " + movieId);
-                HarSett.harSett({id: getId($scope.currentPerson["@id"])}, movieId);
+                $http.put($scope.url + "/"+ getId($scope.currentPerson["@id"]) + "/kjenner/" + getId(inputString["@id"]), 
+                    data: movieId,
+                    {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+                    'cx_auth': $cookies.cx_secret, 
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                    'Content-Type': 'text/plain'}
+                }).success(function() {
+                    var person = HentPerson.get({id: $scope.currentPerson["@id"]});
+                    console.log("yeay:::: " + person);
+                }).error(function() {
+                    console.log("æsj!!!");
+                });
+                // HarSett.harSett({id: getId($scope.currentPerson["@id"])}, movieId);
             };
 
             $http({method: 'GET', url: $scope.url}).success(function(response){
@@ -39,37 +51,39 @@
                 console.log("addKjenner");
                 console.log($cookies.cx_secret);
 
-                // $http({method: 'PUT',
-                //         url: $scope.url + "/1/kjenner/2",
-                //         data: '',
-                //         headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-                //         'cx_auth': $cookies.cx_secret}
-                //         // 'Access-Control-Allow-Headers': 'Content-Type'}
-                //     })
-                // .success(function(){
-                //     console.log("Jipppiiiii");
-                // }).error(function(err){
-                //     console.log("æssshhh");
-                // }); 
-                Kjenner.addKjenner({
-                    id: getId($scope.currentPerson["@id"]),
-                    kjenner_id: getId(inputString["@id"])
-                }, function (response) {
-                    console.log("Svar fra addKjenner");
-                    console.log(response);
+                $http.put($scope.url + "/"+ getId($scope.currentPerson["@id"]) + "/kjenner/" + getId(inputString["@id"]), 
+                        data: '',
+                        {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+                        'cx_auth': $cookies.cx_secret, 
+                        'Access-Control-Allow-Headers': 'Content-Type'}
+                    })
+                .success(function(){
+                    var person = HentPerson.get({id: $scope.currentPerson["@id"]});
+                    console.log("yeay:::: " + person);
 
-                    HentPerson({
-                        id: $scope.currentPerson["@id"]
-                    }, function(person, headers){
-                        $cookies.cx_secret = headers("cx_secret");
-                        $scope.currentPerson = person["@graoh"][0];
-                    }, function(err) {
-                        console.log("Noe galt med hent person etter lagt til kjenner");
-                    });
-                }, function (err) {
-                    $scope.error = "Something went wrong ;(";
-                    console.log("Noe galt med legge til kjenner");
-                });
+                    console.log("Jipppiiiii");
+                }).error(function(err){
+                    console.log("æssshhh");
+                }); 
+                // Kjenner.addKjenner({
+                //     id: getId($scope.currentPerson["@id"]),
+                //     kjenner_id: getId(inputString["@id"])
+                // }, function (response) {
+                //     console.log("Svar fra addKjenner");
+                //     console.log(response);
+
+                //     HentPerson({
+                //         id: $scope.currentPerson["@id"]
+                //     }, function(person, headers){
+                //         $cookies.cx_secret = headers("cx_secret");
+                //         $scope.currentPerson = person["@graoh"][0];
+                //     }, function(err) {
+                //         console.log("Noe galt med hent person etter lagt til kjenner");
+                //     });
+                // }, function (err) {
+                //     $scope.error = "Something went wrong ;(";
+                //     console.log("Noe galt med legge til kjenner");
+                // });
 
             };
             $scope.selectedInputFormatter = function () {
