@@ -30,8 +30,14 @@
                     'cx_auth': $cookies.cx_secret, 
                     'Content-Type': 'text/plain'}}
                 ).success(function() {
-                    var person = HentPerson.get({id: $scope.currentPerson['@id']});
-                    console.log('yeay:::: ' + person);
+                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
+                    .success(function(response) {
+                    console.log('yeay:::: ' + response);
+                        console.log(response)
+                    }).error(function(err) {
+                    console.log('æsj!!!');    
+                    });
+                    // var person = HentPerson.get({id: $scope.currentPerson['@id']});
                 }).error(function() {
                     console.log('æsj!!!');
                 });
@@ -92,15 +98,24 @@
 
             $scope.getPerson = function(id) {
                 console.log("henter****person");
-                var person = new HentPerson.get({id: getId(id)}, function(response) {
-                    console.log("hent person");
-                    console.log(response);
-                    $scope.listePerson.kontakter  = response;
-                }, function(err, headers) {
-                   console.log(err);
-                    console.log(headers);
-                });
-                console.log(person);
+
+                    $http.get($scope.url + '/'+ getId(id))
+                    .success(function(response) {
+                    console.log('yeay:::: ' + response);
+                        console.log(response)
+                    }).error(function(err) {
+                    console.log('æsj!!!');    
+                    });
+
+                // var person = new HentPerson.get({id: getId(id)}, function(response) {
+                //     console.log("hent person");
+                //     console.log(response);
+                //     $scope.listePerson.kontakter  = response;
+                // }, function(err, headers) {
+                //    console.log(err);
+                //     console.log(headers);
+                // });
+                // console.log(person);
             };
             $scope.putKjenner = function(node) {
                 //todo legge inn in kjenner inputbox
