@@ -78,7 +78,8 @@
 	<div class="col-md-4 rounded">
 	    <h2>Personer</h2>
 		<div ng-repeat="node in wholeGraph">
-		<span class="btn-link" ng-click="putKjenner(node)">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
+		    <span class="btn-link" ng-click="getPerson(node['@id'])">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
+            <div ng-show="listePerson" ng-repeat="venn in listePerson.kontakter">{{venn["firstName"]}} {{venn["lastName"]}}</div>
 		</div>
 	</div>
 

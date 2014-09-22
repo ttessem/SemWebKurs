@@ -58,7 +58,7 @@
                     console.log("Svar fra addKjenner");
                     console.log(response);
 
-                    HentPerson.hentPerson({
+                    HentPerson({
                         id: $scope.currentPerson["@id"]
                     }, function(person, headers){
                         $cookies.cx_secret = headers("cx_secret");
@@ -75,6 +75,19 @@
             $scope.selectedInputFormatter = function () {
                 return "";
             };
+
+            $scope.getPerson = function(id) {
+                console.log("henter****person");
+                var person = new HentPerson.get({id: getId(id)}, function(response) {
+                    console.log("hent person");
+                    console.log(response);
+                    $scope.listePerson.kontakter  = response;
+                }, function(err, headers) {
+                   console.log(err);
+                    console.log(headers);
+                });
+                console.log(person);
+            }
             $scope.putKjenner = function(node) {
                 //todo legge inn in kjenner inputbox
             };

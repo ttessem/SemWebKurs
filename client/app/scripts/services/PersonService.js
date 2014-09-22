@@ -22,18 +22,18 @@ app.factory('Person',['$resource', 'Config', function($resource, Config){
 }]);
 
 app.factory('HentPerson', ['$resource', 'Config', function($resource, Config) {
-	return $resource(Config.apiBaseUrlPerson+ ':id');
+	return $resource(Config.apiBaseUrlPerson+ '/:id');
 }]);
 
 
-app.factory('Kjenner', ['$resource', '$cookies', function($resource, $cookies) {
+app.factory('Kjenner', ['$resource', '$cookies', '$http', function($resource, $cookies, $http) {
     console.log("cx_auth");
     console.log($cookies.cx_secret);
 	return $resource(CONFIG.API_BASE_URL + 'uib/person/:id/kjenner/:kjenner_id', {}, {
 		addKjenner: {
 			method: 'PUT',
 			params: {id : "@id", kjenner_id : "@kjenner_id"},
-			headers: {'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS', 'cx_auth' : $cookies.cx_secret}
+			headers: {'cx_auth' : $cookies.cx_secret}
 		}
 	});
 }]);

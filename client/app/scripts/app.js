@@ -30,8 +30,8 @@
             // $httpProvider.interceptors.push('httpInterceptor');
 
             // Enable cross domain calls
-            $httpProvider.defaults.useXDomain = true;
-            delete $httpProvider.defaults.headers.common['X-Requested-With'];
+//            $httpProvider.defaults.useXDomain = true;
+//            delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
             // Configure angular-local-storage to use sessionStorage and a proper prefix
             // localStorageServiceProvider.prefix = 'app';
