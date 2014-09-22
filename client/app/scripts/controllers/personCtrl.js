@@ -60,8 +60,9 @@
 
                     HentPerson.hentPerson({
                         id: $scope.currentPerson["@id"]
-                    }, function(person){
-                        $scope.currentPerson = person;
+                    }, function(person, headers){
+                        $cookies.cx_secret = headers("cx_secret");
+                        $scope.currentPerson = person["@graoh"][0];
                     }, function(err) {
                         console.log("Noe galt med hent person etter lagt til kjenner");
                     });

@@ -1,7 +1,10 @@
-<h1>Velkommen til Computas bedriftspresentasjon</h1>
 <div class="row">
-	<h1 class="col-md-12" ng-hide="currentPersonId">Registrer Person</h1>
-	<div class="col-md-7">
+    <h1 class="col-md-12 text-center">Velkommen til Computas bedriftspresentasjon</h1>
+</div>
+    <div class="row">
+        <div class="col-md-8">
+	<h1 ng-hide="currentPersonId">Registrer Person</h1>
+	<div>
 
 		<form ng-submit="submitperson()" ng-hide="currentPersonId">
 			<div class="form-group">
@@ -24,9 +27,11 @@
 		</form>
 		<br>
 		<div>
-			<div ng-show="currentPerson">
-				<h2>{{currentPerson["firstName"]}}</h2>
-				<label class="col-md-2">Legg til venn:</label>
+			<div class="col-md-12" ng-show="currentPerson">
+				<h1 class="col-md-12">{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}}</span>
+                    <span ng-if="currentPerson['studieretning']">{{currentPerson["studieretning"]}}</span></h1>
+                <div class="row">
+                <label class="col-md-2">Legg til venn:</label>
 		<!-- {{currentPerson["firstName"]}} kjenner -->
 				<input type="text"
 		        ng-model="nyvenn"
@@ -37,17 +42,27 @@
 		        typeahead-input-formatter = "selectedInputFormatter()"
 		        tag-paste="addKjenner"
 		        />
+                </div>
+                <div class="row">
+		        <label class="col-md-2">Legg til filmer du liker:</label>
 
-		<label class="col-md-2">Legg til filmer du liker:</label>
+		        <input class="col-md-10 form-control"  ng-model="movieSearch"
+			    ng-change="getSearch(movieSearch)">
+                    <div ng-repeat="movie in movieResults['@graph']">
+                        <span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Venner</h3>
 
-		<input class="col-md-10 form-control"  ng-model="movieSearch" 
-			ng-change="getSearch(movieSearch)"			
-			>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Filmer</h3>
 
-		<!-- <button class="btn btn-default" type="submit" ng-click="getSearch(movieSearch)">Søk</button> -->
-		<div ng-repeat="movie in movieResults['@graph']">
-			<span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
-		</div>
+                    </div>
+                </div>
+                <!-- <button class="btn btn-default" type="submit" ng-click="getSearch(movieSearch)">Søk</button> -->
 		<!--input auto-complete ui-items="venner" ng-model="venn"-->
 		<!--button class="btn btn-default" ng-click="lagreKjenner(venn)">Lagre</button> <br-->
 				</div>
@@ -59,8 +74,9 @@
 		Response: {{graph["@id"]}} {{graph["firstName"]}} {{graph["lastName"]}} {{graph["alder"]}} {{graph["studieretning"]}} <br>
 		</div> -->
 	</div>
-	<div class="col-md-5">
-	<h2>Personer</h2>	
+        </div>
+	<div class="col-md-4 rounded">
+	    <h2>Personer</h2>
 		<div ng-repeat="node in wholeGraph">
 		<span class="btn-link" ng-click="putKjenner(node)">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
 		</div>

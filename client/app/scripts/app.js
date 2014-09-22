@@ -7,19 +7,19 @@
     app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
-            })
-            .when('/person', {
                 templateUrl: 'views/person.html',
                 controller: 'PersonCtrl'
             })
-            .when('/movie', {
-                templateUrl: 'views/movie.html',
-                controller: 'MovieCtrl'
-            })
+//            .when('/person', {
+//                templateUrl: '',
+//                controller: ''
+//            })
+//            .when('/movie', {
+//                templateUrl: 'views/movie.html',
+//                controller: 'MovieCtrl'
+//            })
             .otherwise({
-                redirectTo: '/person'
+                redirectTo: '/'
             });
     }]);
 

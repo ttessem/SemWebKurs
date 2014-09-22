@@ -26,21 +26,25 @@ app.factory('HentPerson', ['$resource', 'Config', function($resource, Config) {
 }]);
 
 
-app.factory('Kjenner', ['$resource', function($resource) {
+app.factory('Kjenner', ['$resource', '$cookies', function($resource, $cookies) {
+    console.log("cx_auth");
+    console.log($cookies.cx_secret);
 	return $resource(CONFIG.API_BASE_URL + 'uib/person/:id/kjenner/:kjenner_id', {}, {
 		addKjenner: {
 			method: 'PUT',
 			params: {id : "@id", kjenner_id : "@kjenner_id"},
-			headers: {'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS'}
+			headers: {'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS', 'cx_auth' : $cookies.cx_secret}
 		}
 	});
 }]);
 
-app.factory('HarSett', ['$resource', function($resource) {
+app.factory('HarSett', ['$resource', '$cookies', function($resource, $cookies) {
 
 	return $resource(CONFIG.API_BASE_URL + 'uib/person/:id/harSett', {}, {
 		harSett: {
-			method: 'PUT'
+			method: 'PUT',
+            params : {id: "@id"},
+            headers: {'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS', 'cx_auth' : $cookies.cx_secret}
 		}
 	});
 }]);
