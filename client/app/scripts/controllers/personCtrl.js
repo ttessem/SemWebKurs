@@ -24,7 +24,7 @@
             $scope.likesMovie = function(movieId) {
                 console.log('movie id: ' + movieId);
                 
-                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']), 
+                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett', 
                     movieId,
                     {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
                     'cx_auth': $cookies.cx_secret, 
@@ -58,10 +58,10 @@
                         'Access-Control-Allow-Headers': 'Content-Type'}
                     })
                 .success(function(){
-                    var person = HentPerson.get({id: $scope.currentPerson["@id"]});
-                    console.log("yeay:::: " + person);
-
+                    var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
                     console.log("Jipppiiiii");
+                    console.log(person);
+
                 }).error(function(err){
                     console.log("æssshhh");
                 }); 
