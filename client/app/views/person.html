@@ -6,7 +6,7 @@
 	<h1 ng-hide="currentPersonId">Registrer Person</h1>
 	<div>
 
-		<form ng-submit="submitperson()" ng-hide="currentPersonId">
+		<form ng-submit="submitperson()" ng-hide="currentUserId">
 			<div class="form-group">
 				<label for="fornavn">Fornavn</label>
 				<input id="fornavn" class="form-control" ng-model="person.fornavn" required>
@@ -48,9 +48,9 @@
 
 		        <input class="form-control"  ng-model="movieSearch"
 			    ng-change="localMovieSearch(movieSearch)">
-                    <button ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
+                    <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
                     <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
-                        <span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
+                        <p> ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}</p>
                     </div>
                 </div>
                 <div class="row">
