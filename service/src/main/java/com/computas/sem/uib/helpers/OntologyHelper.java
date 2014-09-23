@@ -101,6 +101,38 @@ public class OntologyHelper {
 		}
 	}
 	
+	public Model getPersonKjennerFromModel(String id, Model data) {
+		Query q = QueryFactory.create(
+				  "DESCRIBE ?kjenner "
+				+ "WHERE {"
+				+	 "<"+getPersonURI(id).getURI()+"> <"+getKjennerPredicate()+"> ?kjenner ."
+				+ "}");
+		QueryExecution queryExec = QueryExecutionFactory.create(q, data);
+		try {
+			return queryExec.execDescribe();
+		}
+		finally {
+			queryExec.close();
+		}
+	}
+	
+
+
+	public Model getPersonHarSettFromModel(String id, Model data) {
+		Query q = QueryFactory.create(
+				  "DESCRIBE ?kjenner "
+				+ "WHERE {"
+				+	 "<"+getPersonURI(id).getURI()+"> <"+getHarSettPredicate()+"> ?kjenner ."
+				+ "}");
+		QueryExecution queryExec = QueryExecutionFactory.create(q, data);
+		try {
+			return queryExec.execDescribe();
+		}
+		finally {
+			queryExec.close();
+		}
+	}
+	
 	public List<String> getPersonPredicates() {
 		List<String> predicates = new LinkedList<>();
 		ResIterator predicatesIt = getOntologyModel().listResourcesWithProperty(RDFS_DOMAIN, getPersonClass());
