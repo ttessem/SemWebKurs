@@ -12,6 +12,19 @@
             $scope.selected = {};
             $scope.graph = {};
             $scope.wholeGraph = {};
+            $scope.getPerson = function(id) {
+                console.log("henter****person");
+
+                $http.get($scope.url + '/'+ getId(id))
+                    .success(function(response) {
+                        console.log('yeay:::: ' + response);
+                        console.log(response);
+                        return response;
+                    }).error(function(err) {
+                        console.log('æsj!!!');
+                        return null;
+                    });
+            };
             $scope.currentPerson = $scope.getPerson($cookies.userId);
             $scope.currentPersonId = null;
             $scope.currentPersonMovies = [];
@@ -119,29 +132,7 @@
                 return "";
             };
 
-            $scope.getPerson = function(id) {
-                console.log("henter****person");
 
-                $http.get($scope.url + '/'+ getId(id))
-                    .success(function(response) {
-                        console.log('yeay:::: ' + response);
-                        console.log(response);
-                        return response;
-                    }).error(function(err) {
-                        console.log('æsj!!!');
-                        return null;
-                    });
-
-                // var person = new HentPerson.get({id: getId(id)}, function(response) {
-                //     console.log("hent person");
-                //     console.log(response);
-                //     $scope.listePerson.kontakter  = response;
-                // }, function(err, headers) {
-                //    console.log(err);
-                //     console.log(headers);
-                // });
-                // console.log(person);
-            };
             $scope.putKjenner = function(node) {
                 //todo legge inn in kjenner inputbox
             };
