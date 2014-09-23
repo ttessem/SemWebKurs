@@ -69,7 +69,7 @@
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
                             .success(function(response){
                                 console.log(response);
-                               $scope.currentPersonMovies = response;
+                               $scope.currentPersonMovies = response['@graph'];
                             });
 
                         // var person = HentPerson.get({id: $scope.currentPerson['@id']});
@@ -105,7 +105,7 @@
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
                             .success(function(response){
                                 console.log(response);
-                                $scope.currentPersonFriends = response;
+                                $scope.currentPersonFriends = response['@graph'];
                             });
 
                     }).error(function(err){
