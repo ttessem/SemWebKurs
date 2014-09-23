@@ -50,7 +50,7 @@
 			    ng-change="localMovieSearch(movieSearch)">
                     <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
                     <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
-                        <p ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}</p>
+                        <div ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}</div>
                     </div>
                 </div>
                 <div class="row">
