@@ -9,13 +9,13 @@
 		<form ng-submit="submitperson()" ng-hide="currentPersonId">
 			<div class="form-group">
 				<label for="fornavn">Fornavn</label>
-				<input id="fornavn" class="form-control" ng-model="person.fornavn">
+				<input id="fornavn" class="form-control" ng-model="person.fornavn" required>
 				<label for="etternavn">Etternavn</label>
-				<input id="etternavn" class="form-control" ng-model="person.etternavn">
+				<input id="etternavn" class="form-control" ng-model="person.etternavn" required>
 				<label for="alder">Alder</label>
-				<input id="alder" class="form-control" ng-model="person.alder">
+				<input id="alder" class="form-control" ng-model="person.alder" required>
 				<label for="studieprogram">Studieprogram</label>
-				<input id="studieprogram" class="form-control" ng-model="person.studieretning">
+				<input id="studieprogram" class="form-control" ng-model="person.studieretning" required>
 			</div>
 			<div class="form-group">
 				<button class="btn btn-default">Lagre</button>

@@ -38,10 +38,15 @@
                                 console.log('yeay:::: ' + response);
                                 console.log(response);
                                 $scope.currentPerson = response["@graph"][0];
-                                setCurrentPerson(response["@graph"][0]);
+
                             }).error(function(err) {
                                 console.log('æsj!!!');
                             });
+                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
+                            .success(function(response){
+                               $scope.currentPersonMovies = response;
+                            });
+
                         // var person = HentPerson.get({id: $scope.currentPerson['@id']});
                     }).error(function() {
                         console.log('æsj!!!');
@@ -72,7 +77,11 @@
                         var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
                         console.log("Jipppiiiii");
                         console.log(person);
-                        setCurrentPerson(person["@graph"][0]);
+                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
+                            .success(function(response){
+                                $scope.currentPersonFriends = response;
+                            });
+
                     }).error(function(err){
                         console.log("æssshhh");
                     });
@@ -98,27 +107,6 @@
 
             };
 
-            function setCurrentPerson(person) {
-                $scope.currentPerson = person;
-                listFriends(person);
-                listMovies(person);
-            }
-
-            function listFriends(person) {
-                var friendsIds = person.knows;
-                var listOfFriends = friendsIds.forEach(function(friendId) {
-                    for(var i = 0; i < $scope.wholeGraph.length; i++) {
-                        if(friendId === $scope.wholeGraph[i]["@id"]) {
-                            console.log($scope.wholeGraph[i]);
-                            $scope.currentPersonFriends.push($scope.wholeGraph[i]);
-                        }
-                    }
-                });
-            }
-
-            function listMovies(person) {
-                $scope.currentPersonMovies = person.harSett;
-            }
             $scope.selectedInputFormatter = function () {
                 return "";
             };
