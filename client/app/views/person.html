@@ -27,26 +27,26 @@
 		</form>
 		<br>
 		<div>
-			<div class="col-md-12" ng-show="currentPerson">
-				<h1 class="col-md-12">{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}}</span>
-                    <span ng-if="currentPerson['studieretning']">{{currentPerson["studieretning"]}}</span></h1>
+			<div class="col-md-12" ng-show="currentUser">
+				<h1>{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}} år, </span>
+                    <span ng-if="currentPerson['studieretning']">Studieretning: {{currentPerson["studieretning"]}}</span></h1>
                 <div class="row">
-                <label class="col-md-5">Legg til venn:</label>
-		<!-- {{currentPerson["firstName"]}} kjenner -->
+                <label>Legg til venn:</label>
+
 				<input type="text"
-		        ng-model="nyvenn"
-		        typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
-		        typeahead-on-select="onMemberSelect($item)"
-		        class="col-md-6 form-control"
-		        placeholder="søk etter venn"
-		        typeahead-input-formatter = "selectedInputFormatter()"
-		        tag-paste="addKjenner"
+                    ng-model="nyvenn"
+                    typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
+                    typeahead-on-select="onMemberSelect($item)"
+                    class="form-control"
+                    placeholder="søk etter venn"
+                    typeahead-input-formatter = "selectedInputFormatter()"
+                    tag-paste="addKjenner"
 		        />
                 </div>
                 <div class="row">
-		        <label class="col-md-5">Legg til filmer du liker:</label>
+		        <label>Legg til filmer du liker:</label>
 
-		        <input class="col-md-6 form-control"  ng-model="movieSearch"
+		        <input class="form-control"  ng-model="movieSearch"
 			    ng-change="getSearch(movieSearch)">
                     <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
                         <span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
@@ -55,24 +55,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h3>Venner</h3>
-
+                        <div ng-repeat="knows in currentPersonFriends">
+                            {{knows.firsName}} {{knows.lastName}} {{knows.studieretning}}
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <h3>Filmer</h3>
-
+                        <div ng-repeat="harSettMovie in currentPersonMovies">
+                            <a href="{{harSettMovie}}">{{harSettMovie}}</a>
+                        </div>
                     </div>
                 </div>
-                <!-- <button class="btn btn-default" type="submit" ng-click="getSearch(movieSearch)">Søk</button> -->
-		<!--input auto-complete ui-items="venner" ng-model="venn"-->
-		<!--button class="btn btn-default" ng-click="lagreKjenner(venn)">Lagre</button> <br-->
 				</div>
-		<!-- <div ng-show="selected" ng-repeat="venn in venner">			
-			{{person.fornavn}} har venn {{venn.firstName}}
-		</div> -->
 			</div>
-		<!-- 	<div>
-		Response: {{graph["@id"]}} {{graph["firstName"]}} {{graph["lastName"]}} {{graph["alder"]}} {{graph["studieretning"]}} <br>
-		</div> -->
 	</div>
         </div>
 	<div class="col-md-4 rounded">
