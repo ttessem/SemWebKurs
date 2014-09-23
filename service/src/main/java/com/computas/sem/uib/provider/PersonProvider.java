@@ -60,29 +60,16 @@ public class PersonProvider {
 				.build();
 	}
 	
-//	@OPTIONS
-//	@PermitAll
-//	@javax.annotation.security.RolesAllowed("")
-//	@Path("{path:.*}")
-//	public Response optionsAll(@PathParam("path") String path) {
-//		return Response
-//				.ok()
-//				.header("Access-Control-Allow-Origin", "*")
-//				.header("Access-Control-Allow-Methods",	"POST, GET, PUT, UPDATE, OPTIONS")
-//				.header("Access-Control-Allow-Headers",	"Content-Type, Accept, X-Requested-With, cx_auth")
-//				.build();
-//	}
-	
 	@GET
-	@Produces(MEDIA_TYPE)
+	@Produces(MEDIA_TYPE+"; charset=UTF-8")
 	@ApiOperation( value = "Get all persons", notes = "Returns a sparql describe query of all persons as JSON-LD.", produces = MEDIA_TYPE)
 	public Response getAll() {
 		return getModelAsJsonLd(ontoHelper.getAllPersonsFromModel(getModel()));
 	}
 
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MEDIA_TYPE)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED+"; charset=UTF-8")
+	@Produces(MEDIA_TYPE+"; charset=UTF-8")
 	@ApiOperation(value = "Post new person", notes = "Add a new person and returns it as JSON-LD. The persons auth key is in header as cx_secret.", consumes = MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiResponses(value = {
 			@ApiResponse(code=200, message = "Successfully added the person."),
@@ -92,6 +79,9 @@ public class PersonProvider {
 							  @ApiParam(required = true) @FormParam("etternavn") String etternavn, 
 							  @ApiParam(required = true) @FormParam("alder") int alder, 
 							  @ApiParam(required = true) @FormParam("studieretning") String studieretning){
+		if(!validArg(fornavn) || !validArg(etternavn) || !validArg(studieretning)){
+			return Response.status(422).entity("Missing field").build();
+		}
 		try {
 			String id = ontoHelper.addPersonToModel(fornavn, etternavn, alder, studieretning, getModel());
 			String uuid = UUID.randomUUID().toString();
@@ -109,7 +99,7 @@ public class PersonProvider {
 	
 	@GET
 	@Path("/{id}")
-	@Produces(MEDIA_TYPE)
+	@Produces(MEDIA_TYPE+"; charset=UTF-8")
 	@ApiOperation(value = "Get a person.", notes = "Gets a person by id and returns as JSON-LD.")	
 	@ApiResponses(value = {
 			@ApiResponse(code=200, message = "The person was found."),
@@ -188,5 +178,9 @@ public class PersonProvider {
 	
 	private Model getModel() {
 		return local.getModel(RdfConnection.DATA_GRAPH);
+	}
+	
+	private boolean validArg(String s) {
+		return s != null && s != "";
 	}
 }
