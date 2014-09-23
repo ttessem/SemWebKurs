@@ -1,46 +1,63 @@
 (function(app){
     'use strict';
 
-    app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies', 
-        'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett', 
+    app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies',
+        'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett',
+        'SuggestMovie',
         function ($scope, $location, $http, $cookies, HentPerson, Person, Kjenner,
-            Config, $resource, Search, HarSett) {
-            
+                  Config, $resource, Search, HarSett, SuggestMovie) {
+
             $scope.method = 'POST';
             $scope.url = Config.apiBaseUrlPerson;
             $scope.selected = {};
             $scope.graph = {};
             $scope.wholeGraph = {};
             $scope.currentPersonId = null;
+            $scope.currentPersonMovies = [];
+            $scope.currentPersonFriends = [];
+            $scope.currentUserId = $cookies.userId || null;
 
             $scope.getSearch = function(movie) {
-                console.log('Movie: ' + movie); 
+                console.log('Movie: ' + movie);
                 if(movie.length >= 3) {
                     var res = Search.get({title: movie});
                     console.log(res);
                     $scope.movieResults = res;
                 }
             };
+            $scope.localMovieSearch = function(movieTitle) {
+                if(movieTitle.length >= 3){
+                var movies = SuggestMovie.get({title: movieTitle});
+                    $scope.movieResults = movies;
+                }
+            };
             $scope.likesMovie = function(movieId) {
                 console.log('movie id: ' + movieId);
-                
-                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett', 
+
+                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett',
                     movieId,
                     {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-                    'cx_auth': $cookies.cx_secret, 
-                    'Content-Type': 'text/plain'}}
+                        'cx_auth': $cookies.cx_secret,
+                        'Content-Type': 'text/plain'}}
                 ).success(function() {
-                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
-                    .success(function(response) {
-                    console.log('yeay:::: ' + response);
-                        console.log(response)
-                    }).error(function(err) {
-                    console.log('æsj!!!');    
+                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
+                            .success(function(response) {
+                                console.log('yeay:::: ' + response);
+                                console.log(response);
+                                $scope.currentPerson = response["@graph"][0];
+
+                            }).error(function(err) {
+                                console.log('æsj!!!');
+                            });
+                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
+                            .success(function(response){
+                               $scope.currentPersonMovies = response;
+                            });
+
+                        // var person = HentPerson.get({id: $scope.currentPerson['@id']});
+                    }).error(function() {
+                        console.log('æsj!!!');
                     });
-                    // var person = HentPerson.get({id: $scope.currentPerson['@id']});
-                }).error(function() {
-                    console.log('æsj!!!');
-                });
                 // HarSett.harSett({id: getId($scope.currentPerson["@id"])}, movieId);
             };
 
@@ -57,20 +74,24 @@
                 console.log('addKjenner');
                 console.log($cookies.cx_secret);
 
-                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner/' + getId(inputString['@id']), 
-                        null,
-                        {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
-                        'cx_auth': $cookies.cx_secret, 
+                $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner/' + getId(inputString['@id']),
+                    null,
+                    {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
+                        'cx_auth': $cookies.cx_secret,
                         'Access-Control-Allow-Headers': 'Content-Type'}
                     })
-                .success(function(){
-                    var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
-                    console.log("Jipppiiiii");
-                    console.log(person);
+                    .success(function(){
+                        var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
+                        console.log("Jipppiiiii");
+                        console.log(person);
+                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
+                            .success(function(response){
+                                $scope.currentPersonFriends = response;
+                            });
 
-                }).error(function(err){
-                    console.log("æssshhh");
-                }); 
+                    }).error(function(err){
+                        console.log("æssshhh");
+                    });
                 // Kjenner.addKjenner({
                 //     id: getId($scope.currentPerson["@id"]),
                 //     kjenner_id: getId(inputString["@id"])
@@ -92,6 +113,7 @@
                 // });
 
             };
+
             $scope.selectedInputFormatter = function () {
                 return "";
             };
@@ -99,12 +121,12 @@
             $scope.getPerson = function(id) {
                 console.log("henter****person");
 
-                    $http.get($scope.url + '/'+ getId(id))
+                $http.get($scope.url + '/'+ getId(id))
                     .success(function(response) {
-                    console.log('yeay:::: ' + response);
-                        console.log(response)
+                        console.log('yeay:::: ' + response);
+                        console.log(response);
                     }).error(function(err) {
-                    console.log('æsj!!!');    
+                        console.log('æsj!!!');
                     });
 
                 // var person = new HentPerson.get({id: getId(id)}, function(response) {
@@ -146,7 +168,7 @@
                     $cookies.cx_secret = headers("cx_secret");
                     $scope.currentPerson = response["@graph"][0];
                     $scope.currentPersonId = $scope.currentPerson["@id"];
-
+                    $cookies.userId = getId($scope.currentPerson['@id']);
                 });
 
             };

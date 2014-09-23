@@ -12,6 +12,9 @@
 
 		});
 	}]);
+    app.factory("SuggestMovie", ['$resource', 'Config', function($resource, Config){
+        return $resource(Config.apiBaseUrl + 'suggest/movie', {title: '@title'},{});
+    }]);
 
 // app.factory('PersonService', [ function() {
 // 	var PersonService = {
