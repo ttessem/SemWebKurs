@@ -168,7 +168,7 @@
                     $cookies.cx_secret = headers("cx_secret");
                     $scope.currentPerson = response["@graph"][0];
                     $scope.currentPersonId = $scope.currentPerson["@id"];
-                    $cookies.userId = $scope.currentPerson['@id'];
+                    $cookies.userId = getId($scope.currentPerson['@id']);
                 });
 
             };
