@@ -26,7 +26,7 @@
                 }
             };
             $scope.localMovieSearch = function(movieTitle) {
-                if(moviesTitle.length >= 3){
+                if(movieTitle.length >= 3){
                 var movies = SuggestMovie.get({title: movieTitle});
                     $scope.movieResults = movies;
                 }
