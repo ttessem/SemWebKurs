@@ -38,8 +38,14 @@
                 console.log('Movie: ' + movie);
                 if(movie.length >= 3) {
                     var res = Search.get({title: movie});
-                    console.log(res);
-                    $scope.movieResults = res;
+                    console.log(res);                
+                    var movies = res['@graph'];                    
+                    if(res['@id'].startWith('http://'){
+                        $scope.movieResults = res;
+                    } else {
+                        //TODO fix prefix map
+
+                    }
                 }
             };
             $scope.localMovieSearch = function(movieTitle) {
