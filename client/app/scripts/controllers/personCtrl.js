@@ -40,7 +40,7 @@
                     var res = Search.get({title: movie});
                     console.log(res);                
                     var movies = res['@graph'];                    
-                    if(res['@id'].startWith('http://'){
+                    if(res['@id'].startWith('http://')){
                         $scope.movieResults = res;
                     } else {
                         //TODO fix prefix map
