@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -17,7 +16,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
@@ -27,7 +25,6 @@ import com.computas.sem.uib.helpers.MovieHelper;
 import com.computas.sem.uib.helpers.OntologyHelper;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -62,7 +59,7 @@ public class PersonProvider {
 	
 	@GET
 	@Produces(MEDIA_TYPE+"; charset=UTF-8")
-	@ApiOperation( value = "Get all persons", notes = "Returns a sparql describe query of all persons as JSON-LD.", produces = MEDIA_TYPE)
+	@ApiOperation(value = "Get all persons", notes = "Returns a sparql describe query of all persons as JSON-LD.", produces = MEDIA_TYPE)
 	public Response getAll() {
 		return getModelAsJsonLd(ontoHelper.getAllPersonsFromModel(getModel()));
 	}
@@ -107,6 +104,34 @@ public class PersonProvider {
 	})
 	public Response getPerson(@ApiParam(value = "Person id") @PathParam("id") String id){
 		Model personModel = ontoHelper.getPersonFromModel(id, getModel());
+		if(personModel.isEmpty())
+			return Response.status(404).build();
+		return getModelAsJsonLd(personModel);
+	}
+	
+	@GET
+	@Path("/{id}/kjenner")
+	@Produces(MEDIA_TYPE+"; charset=UTF-8")
+	@ApiOperation(value = "Get the persons a person knows.", notes = "Gets a description of all the persons the person knows as JSON-LD.")	
+	@ApiResponses(value = {
+			@ApiResponse(code=200, message = "A list of persons")
+	})
+	public Response getPersonKjenner(@ApiParam(value = "Person id") @PathParam("id") String id){
+		Model personModel = ontoHelper.getPersonKjennerFromModel(id, getModel());
+		if(personModel.isEmpty())
+			return Response.status(404).build();
+		return getModelAsJsonLd(personModel);
+	}
+	
+	@GET
+	@Path("/{id}/harSett")
+	@Produces(MEDIA_TYPE+"; charset=UTF-8")
+	@ApiOperation(value = "Get the movies a person has seen.", notes = "Gets a description of all the movies the person has seen as JSON-LD.")	
+	@ApiResponses(value = {
+			@ApiResponse(code=200, message = "A list of persons")
+	})
+	public Response getPersonHarSett(@ApiParam(value = "Person id") @PathParam("id") String id){
+		Model personModel = ontoHelper.getPersonHarSettFromModel(id, getModel());
 		if(personModel.isEmpty())
 			return Response.status(404).build();
 		return getModelAsJsonLd(personModel);
