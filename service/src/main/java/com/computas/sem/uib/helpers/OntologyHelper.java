@@ -210,7 +210,7 @@ public class OntologyHelper {
 	}
 	
 	public Resource getPersonURI(String id) {
-		return ResourceFactory.createResource("http://semweb.computas.com/uib/person/"+id);
+		return ResourceFactory.createResource("http://semweb.computas.com/service/uib/person/"+id);
 	}
 
 }
