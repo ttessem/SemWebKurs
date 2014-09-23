@@ -12,6 +12,7 @@
             $scope.selected = {};
             $scope.graph = {};
             $scope.wholeGraph = {};
+            $scope.currentPerson = $scope.getPerson($cookies.userId);
             $scope.currentPersonId = null;
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
@@ -125,8 +126,10 @@
                     .success(function(response) {
                         console.log('yeay:::: ' + response);
                         console.log(response);
+                        return response;
                     }).error(function(err) {
                         console.log('æsj!!!');
+                        return null;
                     });
 
                 // var person = new HentPerson.get({id: getId(id)}, function(response) {
