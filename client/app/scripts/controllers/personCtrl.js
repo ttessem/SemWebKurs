@@ -3,8 +3,9 @@
 
     app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies',
         'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett',
+        'SuggestMovie',
         function ($scope, $location, $http, $cookies, HentPerson, Person, Kjenner,
-                  Config, $resource, Search, HarSett) {
+                  Config, $resource, Search, HarSett, SuggestMovie) {
 
             $scope.method = 'POST';
             $scope.url = Config.apiBaseUrlPerson;
@@ -22,6 +23,12 @@
                     var res = Search.get({title: movie});
                     console.log(res);
                     $scope.movieResults = res;
+                }
+            };
+            $scope.localMovieSearch = function(movieTitle) {
+                if(moviesTitle.length >= 3){
+                var movies = SuggestMovie.get({title: movieTitle});
+                    $scope.movieResults = movies;
                 }
             };
             $scope.likesMovie = function(movieId) {

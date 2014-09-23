@@ -47,7 +47,8 @@
 		        <label>Legg til filmer du liker:</label>
 
 		        <input class="form-control"  ng-model="movieSearch"
-			    ng-change="getSearch(movieSearch)">
+			    ng-change="localMovieSearch(movieSearch)">
+                    <button ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
                     <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
                         <span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
                     </div>
