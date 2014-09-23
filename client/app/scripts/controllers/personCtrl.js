@@ -57,17 +57,18 @@
                         'cx_auth': $cookies.cx_secret,
                         'Content-Type': 'text/plain'}}
                 ).success(function() {
-                        $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
-                            .success(function(response) {
-                                console.log('yeay:::: ' + response);
-                                console.log(response);
-                                $scope.currentPerson = response["@graph"][0];
+                        // $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
+                        //     .success(function(response) {
+                        //         console.log('yeay:::: ' + response);
+                        //         console.log(response);
+                        //         $scope.currentPerson = response["@graph"][0];
 
-                            }).error(function(err) {
-                                console.log('æsj!!!');
-                            });
+                        //     }).error(function(err) {
+                        //         console.log('æsj!!!');
+                        //     });
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
                             .success(function(response){
+                                console.log(response);
                                $scope.currentPersonMovies = response;
                             });
 
@@ -98,11 +99,12 @@
                         'Access-Control-Allow-Headers': 'Content-Type'}
                     })
                     .success(function(){
-                        var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
-                        console.log("Jipppiiiii");
-                        console.log(person);
+                        // var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
+                        // console.log("Jipppiiiii");
+                        // console.log(person);
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
                             .success(function(response){
+                                console.log(response);
                                 $scope.currentPersonFriends = response;
                             });
 
