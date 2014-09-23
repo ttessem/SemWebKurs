@@ -5,7 +5,7 @@ app.factory('Config', [function(){
 	return {
 		apiBaseUrl: "http://semweb.computas.com/service/",
 		apiBaseUrlPerson: "http://semweb.computas.com/service/uib/person",
-		resourcePersonBaseUrl: "http://semweb.computas.com/uib/person/"
+		resourcePersonBaseUrl: "http://semweb.computas.com/service/uib/person/"
 	};
 }]);
 

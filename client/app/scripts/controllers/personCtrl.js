@@ -25,11 +25,14 @@
                         return null;
                     });
             };
-            $scope.currentPerson = $scope.getPerson($cookies.userId);
+
+            $scope.currentPerson = $cookies.userId ? $scope.getPerson($cookies.userId) : null;
             $scope.currentPersonId = null;
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
             $scope.currentUserId = $cookies.userId || null;
+            $scope.secret = $cookies.cx_secret || null;
+            $scope.hideForm = $cookies.userId && $cookies.cx_secret;
 
             $scope.getSearch = function(movie) {
                 console.log('Movie: ' + movie);
@@ -161,7 +164,7 @@
                     console.log(headers('cx_secret'));
                     $cookies.cx_secret = headers("cx_secret");
                     $scope.currentPerson = response["@graph"][0];
-                    $scope.currentPersonId = $scope.currentPerson["@id"];
+                    $scope.currentPersonId = getId($scope.currentPerson["@id"]);
                     $cookies.userId = getId($scope.currentPerson['@id']);
                 });
 

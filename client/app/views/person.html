@@ -3,10 +3,10 @@
 </div>
     <div class="row">
         <div class="col-md-8">
-	<h1 ng-hide="currentUserId">Registrer Person</h1>
+	<h1 ng-hide="hideForm">Registrer Person</h1>
 	<div>
 
-		<form ng-submit="submitperson()" ng-hide="currentUserId">
+		<form ng-submit="submitperson()" ng-hide="hideForm">
 			<div class="form-group">
 				<label for="fornavn">Fornavn</label>
 				<input id="fornavn" class="form-control" ng-model="person.fornavn" required>
@@ -27,7 +27,7 @@
 		</form>
 		<br>
 		<div>
-			<div class="col-md-12" ng-show="currentUserId">
+			<div class="col-md-12" ng-show="currentPerson">
 				<h1>{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}} år, </span>
                     <span ng-if="currentPerson['studieretning']">Studieretning: {{currentPerson["studieretning"]}}</span></h1>
                 <div class="row">
