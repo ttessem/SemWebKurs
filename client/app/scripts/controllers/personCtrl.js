@@ -3,9 +3,9 @@
 
     app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies',
         'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett',
-        'SuggestMovie',
+        'SuggestMovie', 'Polling',
         function ($scope, $location, $http, $cookies, HentPerson, Person, Kjenner,
-                  Config, $resource, Search, HarSett, SuggestMovie) {
+                  Config, $resource, Search, HarSett, SuggestMovie, Polling) {
 
             $scope.method = 'POST';
             $scope.url = Config.apiBaseUrlPerson;
@@ -46,6 +46,11 @@
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
             $scope.movieUrls =[];
+
+            //kaller server hvert 5 sek for endring i liste av personer
+            Polling.callFnOnInterval(function() {
+                $scope.getAllPersons();
+            });
 
             $scope.getSearch = function(movie) {
                 if(movie.length >= 3) {
@@ -152,6 +157,8 @@
                 });
 
             };
+
+
             function getId(url){
                 if(url) {
                     var id = url.substring(Config.resourcePersonBaseUrl.length);
