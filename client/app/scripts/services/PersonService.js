@@ -50,5 +50,21 @@ app.factory('HarSett', ['$resource', '$cookies', function($resource, $cookies) {
 	});
 }]);
 
+app.factory('Polling', ['$timeout', function($timeout) {
+    var timeIntervalInSec = 30;
+
+    function callFnOnInterval(fn, timeInterval) {
+
+        var promise = $timeout(fn, 1000 * timeIntervalInSec);
+
+        return promise.then(function(){
+            callFnOnInterval(fn, timeInterval);
+        });
+    }
+
+    return {
+        callFnOnInterval: callFnOnInterval
+    };
+}]);
 
 })(angular.module('app'));

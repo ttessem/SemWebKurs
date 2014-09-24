@@ -1,11 +1,30 @@
-/*body{*/
-    /*background: url('../img/background.jpg') ;*/
-/*}*/
-/*.rounded {*/
-    /*border: 2px solid #a1a1a1;*/
-    /*padding: 10px 40px;*/
-    /*background: #ffffff;*/
-    /*opacity: 0.3;*/
-    /*border-radius: 25px;*/
-    /*z-index: -20;*/
-/*}*/
+body{
+    background: url('../img/16_9_papirfugler2.jpg') ;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+h1 {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: oblique;
+    color: #F2F2F2;
+}
+h2 {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+label {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+span {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a {
+    color: #07466D;
+}
+
+.rounded {
+    padding: 10px 15px 25px 15px;
+    border-radius: 8px;
+    z-index: -20;
+background-color: rgba(252, 252, 252, 0.6);
+}

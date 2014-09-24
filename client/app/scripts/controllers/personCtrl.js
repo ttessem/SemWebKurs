@@ -3,9 +3,9 @@
 
     app.controller('PersonCtrl', ['$scope', '$location', '$http', '$cookies',
         'HentPerson', 'Person', 'Kjenner', 'Config', '$resource', 'Search', 'HarSett',
-        'SuggestMovie',
+        'SuggestMovie', 'Polling',
         function ($scope, $location, $http, $cookies, HentPerson, Person, Kjenner,
-                  Config, $resource, Search, HarSett, SuggestMovie) {
+                  Config, $resource, Search, HarSett, SuggestMovie, Polling) {
 
             $scope.method = 'POST';
             $scope.url = Config.apiBaseUrlPerson;
@@ -13,99 +13,92 @@
             $scope.graph = {};
             $scope.wholeGraph = {};
             $scope.getPerson = function(id) {
-                console.log("henter****person");
                 if(id) {
                     console.log("get pserson id: " + id)
-                $http.get($scope.url + '/'+ id)
-                    .success(function(response) {
-                        console.log('yeay:::: ' + response);
-                        console.log(response);
-                        $scope.currentPerson = response['@graph'][0];
-                        return response['@graph'][0];
-                    }).error(function(err) {
-                        console.log('æsj!!!');
-                        return null;
-                    });
+                    $http.get($scope.url + '/'+ id)
+                        .success(function(response) {
+                            console.log('yeay:::: ' + response);
+
+                            $scope.currentPerson = response['@graph'][0];
+                            return response['@graph'][0];
+                        }).error(function(err) {
+
+                            return null;
+                        });
+                    //henter filmer
+                    $http.get($scope.url + '/'+ id + '/harSett')
+                        .success(function(response){
+                            console.log(response);
+                            $scope.currentPersonMovies = response['@graph'];
+                        });
+                    //henter venner
+                    $http.get($scope.url + '/'+ id + '/kjenner')
+                        .success(function(response){
+                            console.log(response);
+                            $scope.currentPersonFriends = response['@graph'];
+                        });
                 }
             };
             $scope.hideForm = ($cookies.cx_secret && $cookies.userId); // userId eller null
-            console.log("hideForm " + $scope.hideForm);
-            $scope.secret = $cookies.cx_secret || null;            
+            $scope.secret = $cookies.cx_secret || null;
             $scope.currentPersomId = $cookies.userId || null;
             $scope.currentPerson = $scope.getPerson($cookies.userId);
-            console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
-            
+            $scope.movieUrls =[];
+
+            //kaller server hvert 5 sek for endring i liste av personer
+            Polling.callFnOnInterval(function() {
+                $scope.getAllPersons();
+            });
 
             $scope.getSearch = function(movie) {
-                console.log('Movie: ' + movie);
                 if(movie.length >= 3) {
-                    var res = Search.get({title: movie});
-                    var movies = [];
-                    movies = res['@graph']; 
-                    console.log(movies);                
-                    movies.forEach(function(movie) {
-
-                    if(movie['@id'].startWith('http://')){
+                    Search.get({title: movie}, function(res){
+                        var movies = res["@graph"];
+                        console.log(res);
                         $scope.movieResults = res;
-                    } else {
-                        //TODO fix prefix map
 
-                    }
-                    });                   
+                    });
+
                 }
             };
+
             $scope.localMovieSearch = function(movieTitle) {
                 if(movieTitle.length >= 3){
-                var movies = SuggestMovie.get({title: movieTitle});
-                    $scope.movieResults = movies;
+                    SuggestMovie.get({title: movieTitle}, function(res){
+                        console.log(res["@graph"]);
+                        $scope.movieResults = res;
+                    });
                 }
             };
-            $scope.likesMovie = function(movieId) {
-                console.log('movie id: ' + movieId);
 
+            $scope.likesMovie = function(movie, context) {
+                var movieId = movie['@id'];
+                var prefix = movie['@id'].replace(/(.*):.*/, "\$1");
+                var ns = context[prefix];
+                if(ns) {
+                    movieId = movieId.replace(/.*:(.*)/, ns+"\$1");
+
+                }
                 $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett',
                     movieId,
                     {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
                         'cx_auth': $cookies.cx_secret,
                         'Content-Type': 'text/plain'}}
                 ).success(function() {
-                        // $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']))
-                        //     .success(function(response) {
-                        //         console.log('yeay:::: ' + response);
-                        //         console.log(response);
-                        //         $scope.currentPerson = response["@graph"][0];
-
-                        //     }).error(function(err) {
-                        //         console.log('æsj!!!');
-                        //     });
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
                             .success(function(response){
                                 console.log(response);
-                               $scope.currentPersonMovies = response['@graph'];
+                                $scope.currentPersonMovies = response['@graph'];
                             });
-
-                        // var person = HentPerson.get({id: $scope.currentPerson['@id']});
                     }).error(function() {
                         console.log('æsj!!!');
                     });
-                // HarSett.harSett({id: getId($scope.currentPerson["@id"])}, movieId);
             };
 
-            $http({method: 'GET', url: $scope.url}).success(function(response){
-                console.log(response['@graph']);
-                console.log(response);
-                $scope.wholeGraph = response['@graph'];
-            });
-            var persons = Person.getAllPersons({}, function() {
-                console.log(persons);
-            });
 
             $scope.addKjenner = function (inputString) {
-                console.log('addKjenner');
-                console.log($cookies.cx_secret);
-
                 $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner/' + getId(inputString['@id']),
                     null,
                     {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',
@@ -113,9 +106,6 @@
                         'Access-Control-Allow-Headers': 'Content-Type'}
                     })
                     .success(function(){
-                        // var person = HentPerson.get({id: getId($scope.currentPerson["@id"])});
-                        // console.log("Jipppiiiii");
-                        // console.log(person);
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
                             .success(function(response){
                                 console.log(response);
@@ -123,42 +113,23 @@
                             });
 
                     }).error(function(err){
-                        console.log("æssshhh");
+                        $scope.addKjennerError = "Kunne ikke legge til " + inputString['firstName'] + " som din venn";
                     });
-                // Kjenner.addKjenner({
-                //     id: getId($scope.currentPerson["@id"]),
-                //     kjenner_id: getId(inputString["@id"])
-                // }, function (response) {
-                //     console.log("Svar fra addKjenner");
-                //     console.log(response);
-
-                //     HentPerson({
-                //         id: $scope.currentPerson["@id"]
-                //     }, function(person, headers){
-                //         $cookies.cx_secret = headers("cx_secret");
-                //         $scope.currentPerson = person["@graoh"][0];
-                //     }, function(err) {
-                //         console.log("Noe galt med hent person etter lagt til kjenner");
-                //     });
-                // }, function (err) {
-                //     $scope.error = "Something went wrong ;(";
-                //     console.log("Noe galt med legge til kjenner");
-                // });
-
             };
+
+            //henter alle i grafen
+            $scope.getAllPersons = function() {
+                $http({method: 'GET', url: $scope.url}).success(function (response) {
+                    console.log(response);
+                    $scope.wholeGraph = response['@graph'];
+                });
+            };
+            $scope.getAllPersons();
 
             $scope.selectedInputFormatter = function () {
                 return "";
             };
 
-
-            $scope.putKjenner = function(node) {
-                //todo legge inn in kjenner inputbox
-            };
-            $scope.lagreKjenner = function(node){
-                //$http({method: 'POST', url: $scope.url + :id/kjenner/:kjenner_id})
-
-            };
             $scope.onMemberSelect = function (item) {
                 $scope.addKjenner(item);
             };
@@ -186,6 +157,8 @@
                 });
 
             };
+
+
             function getId(url){
                 if(url) {
                     var id = url.substring(Config.resourcePersonBaseUrl.length);
