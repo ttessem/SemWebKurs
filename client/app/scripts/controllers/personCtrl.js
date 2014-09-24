@@ -42,8 +42,9 @@
                 console.log('Movie: ' + movie);
                 if(movie.length >= 3) {
                     var res = Search.get({title: movie});
-                    console.log(res);                
-                    var movies = res['@graph']; 
+                    var movies = [];
+                    movies = res['@graph']; 
+                    console.log(movies);                
                     movies.forEach(function(movie) {
 
                     if(movie['@id'].startWith('http://')){
