@@ -28,8 +28,10 @@
 		<br>
 		<div>
 			<div class="col-md-12" ng-show="currentPerson">
+				<div class="row">
 				<h1>{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}} år, </span>
                     <span ng-if="currentPerson['studieretning']">Studieretning: {{currentPerson["studieretning"]}}</span></h1>
+                </div>
                 <div class="row">
                 <label>Legg til venn:</label>
 

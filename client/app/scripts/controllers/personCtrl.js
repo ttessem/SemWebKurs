@@ -14,7 +14,7 @@
             $scope.wholeGraph = {};
             $scope.getPerson = function(id) {
                 console.log("henter****person");
-
+                if(id) {
                 $http.get($scope.url + '/'+ getId(id))
                     .success(function(response) {
                         console.log('yeay:::: ' + response);
@@ -24,12 +24,13 @@
                         console.log('æsj!!!');
                         return null;
                     });
+                }
             };
-            $scope.hideForm = ($cookies.userId && $cookies.cx_secret);
+            $scope.hideForm = ($cookies.cx_secret === null && $cookies.userId === null);
             console.log("hideForm " + $scope.hideForm);
             $scope.secret = $cookies.cx_secret || null;            
             $scope.currentPersomId = $cookies.userId || null;
-            $scope.currentPerson = $scope.hideForm ? $scope.getPerson($cookies.userId) : null;
+            $scope.currentPerson = $scope.getPerson($cookies.userId) || null;
             console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
@@ -178,13 +179,16 @@
                     $scope.currentPerson = response["@graph"][0];
                     $scope.currentPersonId = getId($scope.currentPerson["@id"]);
                     $cookies.userId = getId($scope.currentPerson['@id']);
+                    $scope.hideForm = ($cookies.userId && $cookies.cx_secret);
                 });
 
             };
             function getId(url){
-                var id = url.substring(Config.resourcePersonBaseUrl.length);
-                console.log(url + " id: " +id);
-                return id;
+                if(url) {
+                    var id = url.substring(Config.resourcePersonBaseUrl.length);
+                    console.log(url + " id: " +id);
+                    return id;
+                } return null;
             }
             function retrievePerson() {
                 var person = {};
