@@ -15,22 +15,24 @@
             $scope.getPerson = function(id) {
                 console.log("henter****person");
                 if(id) {
-                $http.get($scope.url + '/'+ getId(id))
+                    console.log("get pserson id: " + id)
+                $http.get($scope.url + '/'+ id)
                     .success(function(response) {
                         console.log('yeay:::: ' + response);
                         console.log(response);
-                        return response;
+                        $scope.currentPerson = response['@graph'][0];
+                        return response['@graph'][0];
                     }).error(function(err) {
                         console.log('æsj!!!');
                         return null;
                     });
                 }
             };
-            $scope.hideForm = ($cookies.cx_secret === null && $cookies.userId === null);
+            $scope.hideForm = ($cookies.cx_secret && $cookies.userId); // userId eller null
             console.log("hideForm " + $scope.hideForm);
             $scope.secret = $cookies.cx_secret || null;            
             $scope.currentPersomId = $cookies.userId || null;
-            $scope.currentPerson = $scope.getPerson($cookies.userId) || null;
+            $scope.currentPerson = $scope.getPerson($cookies.userId);
             console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
