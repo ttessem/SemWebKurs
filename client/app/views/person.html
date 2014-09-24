@@ -38,7 +38,7 @@
                                    typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
                                    typeahead-on-select="onMemberSelect($item)"
                                    class="form-control"
-                                   placeholder="søk etter venn"
+                                   placeholder="Søk etter venn"
                                    typeahead-input-formatter = "selectedInputFormatter()"
                                    tag-paste="addKjenner"
                                     />
@@ -50,7 +50,7 @@
                             <div class="form-group">
                             <label>Legg til filmer du liker:</label>
                             <input class="form-control"  ng-model="movieSearch"
-                                   ng-change="localMovieSearch(movieSearch)">
+                                   ng-change="localMovieSearch(movieSearch)" placeholder="Søk etter film">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>

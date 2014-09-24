@@ -15,16 +15,16 @@
             $scope.getPerson = function(id) {
                 if(id) {
                     console.log("get pserson id: " + id)
-                $http.get($scope.url + '/'+ id)
-                    .success(function(response) {
-                        console.log('yeay:::: ' + response);
+                    $http.get($scope.url + '/'+ id)
+                        .success(function(response) {
+                            console.log('yeay:::: ' + response);
 
-                        $scope.currentPerson = response['@graph'][0];
-                        return response['@graph'][0];
-                    }).error(function(err) {
+                            $scope.currentPerson = response['@graph'][0];
+                            return response['@graph'][0];
+                        }).error(function(err) {
 
-                        return null;
-                    });
+                            return null;
+                        });
                     //henter filmer
                     $http.get($scope.url + '/'+ id + '/harSett')
                         .success(function(response){
@@ -40,7 +40,7 @@
                 }
             };
             $scope.hideForm = ($cookies.cx_secret && $cookies.userId); // userId eller null
-            $scope.secret = $cookies.cx_secret || null;            
+            $scope.secret = $cookies.cx_secret || null;
             $scope.currentPersomId = $cookies.userId || null;
             $scope.currentPerson = $scope.getPerson($cookies.userId);
             $scope.currentPersonMovies = [];
@@ -85,18 +85,12 @@
                         $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
                             .success(function(response){
                                 console.log(response);
-                               $scope.currentPersonMovies = response['@graph'];
+                                $scope.currentPersonMovies = response['@graph'];
                             });
                     }).error(function() {
                         console.log('æsj!!!');
                     });
             };
-
-            //henter alle i grafen
-            $http({method: 'GET', url: $scope.url}).success(function(response){
-                console.log(response);
-                $scope.wholeGraph = response['@graph'];
-            });
 
 
             $scope.addKjenner = function (inputString) {
@@ -118,18 +112,19 @@
                     });
             };
 
+            //henter alle i grafen
+            $scope.getAllPersons = function() {
+                $http({method: 'GET', url: $scope.url}).success(function (response) {
+                    console.log(response);
+                    $scope.wholeGraph = response['@graph'];
+                });
+            };
+            $scope.getAllPersons();
+
             $scope.selectedInputFormatter = function () {
                 return "";
             };
 
-
-            $scope.putKjenner = function(node) {
-                //todo legge inn in kjenner inputbox
-            };
-            $scope.lagreKjenner = function(node){
-                //$http({method: 'POST', url: $scope.url + :id/kjenner/:kjenner_id})
-
-            };
             $scope.onMemberSelect = function (item) {
                 $scope.addKjenner(item);
             };
