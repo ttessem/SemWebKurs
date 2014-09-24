@@ -44,15 +44,6 @@
                         var movies = res["@graph"];
                         console.log(res);
                         $scope.movieResults = res;
-//                        movies.forEach(function(m){
-//                            console.log(m['@id']);
-//                            var movieId = m['@id'];
-//                            var dbpediaUrl = res["@context"].dbpedia;
-//                            var movieUrl = movieId.replace('dbpedia:', dbpediaUrl);
-//                            console.log(movieUrl);
-//                            $scope.movieUrls.push(movieUrl);
-//
-//                        });
 
                     });
 
@@ -62,10 +53,11 @@
                 if(movieTitle.length >= 3){
                     SuggestMovie.get({title: movieTitle}, function(res){
                         console.log(res["@graph"]);
-                        $scope.movieResults = res['@graph'];
+                        $scope.movieResults = res;
                     });
                 }
             };
+
             $scope.likesMovie = function(movie, context) {
                 console.log('movie id: ' + movie);
 //                var dbpediaUrl = res["@context"].dbpedia;

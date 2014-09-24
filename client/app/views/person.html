@@ -55,7 +55,10 @@
                             <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
 
                             <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
-                                <div ng-click="likesMovie(movie, movieResults['@context'])">{{movie.label['@value']}}</div>
+                                <div ng-click="likesMovie(movie, movieResults['@context'])">
+                                    <span ng-show="movie.label['@value']">{{movie.label['@value']}}</span>
+                                    <span ng-hide="movie.label['@value']">{{movie.label}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
