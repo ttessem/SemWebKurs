@@ -25,14 +25,15 @@
                         return null;
                     });
             };
-
-            $scope.currentPerson = $cookies.userId ? $scope.getPerson($cookies.userId) : null;
-            $scope.currentPersonId = null;
+            $scope.hideForm = $cookies.userId && $cookies.cx_secret;
+            console.log("hideForm " + $scope.hideForm);
+            $scope.secret = $cookies.cx_secret || null;            
+            $scope.currentPersomId = $cookies.userId || null;
+            $scope.currentPerson = $scoope.hideForm ? $scope.getPerson($cookies.userId) : null;
+            console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
-            $scope.currentUserId = $cookies.userId || null;
-            $scope.secret = $cookies.cx_secret || null;
-            $scope.hideForm = $cookies.userId && $cookies.cx_secret;
+            
 
             $scope.getSearch = function(movie) {
                 console.log('Movie: ' + movie);
