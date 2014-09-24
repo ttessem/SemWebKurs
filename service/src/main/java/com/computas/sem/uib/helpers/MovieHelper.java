@@ -60,6 +60,7 @@ public class MovieHelper {
 					+ "PREFIX foaf: <http://xmlns.com/foaf/0.1/> \n"
 					+ "CONSTRUCT { "
 					+ 	film+" a ?type . "
+					+ 	film+" a <"+ontoHelper.getFilmClass().getURI()+"> . "
 					+ 	film+" foaf:name ?nameEn . "
 					+ 	film+" rdfs:label ?labelEn . "
 					+ "}" 
