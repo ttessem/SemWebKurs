@@ -86,7 +86,7 @@
     <div class="col-md-4 rounded">
         <h2>Personer</h2>
         <div ng-repeat="node in wholeGraph">
-            <a href="node['@id']">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</a>
+            <a href="{{node['@id']}}">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</a>
         </div>
     </div>
 
