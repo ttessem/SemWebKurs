@@ -36,35 +36,47 @@
             console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
-            
+            $scope.movieUrls =[];
 
             $scope.getSearch = function(movie) {
-                console.log('Movie: ' + movie);
                 if(movie.length >= 3) {
-                    var res = Search.get({title: movie});
-                    var movies = [];
-                    movies = res['@graph']; 
-                    console.log(movies);                
-                    movies.forEach(function(movie) {
-
-                    if(movie['@id'].startWith('http://')){
+                    Search.get({title: movie}, function(res){
+                        var movies = res["@graph"];
+                        console.log(res);
                         $scope.movieResults = res;
-                    } else {
-                        //TODO fix prefix map
+//                        movies.forEach(function(m){
+//                            console.log(m['@id']);
+//                            var movieId = m['@id'];
+//                            var dbpediaUrl = res["@context"].dbpedia;
+//                            var movieUrl = movieId.replace('dbpedia:', dbpediaUrl);
+//                            console.log(movieUrl);
+//                            $scope.movieUrls.push(movieUrl);
+//
+//                        });
 
-                    }
-                    });                   
+                    });
+
                 }
             };
             $scope.localMovieSearch = function(movieTitle) {
                 if(movieTitle.length >= 3){
-                var movies = SuggestMovie.get({title: movieTitle});
-                    $scope.movieResults = movies;
+                    SuggestMovie.get({title: movieTitle}, function(res){
+                        console.log(res["@graph"]);
+                        $scope.movieResults = res['@graph'];
+                    });
                 }
             };
-            $scope.likesMovie = function(movieId) {
-                console.log('movie id: ' + movieId);
+            $scope.likesMovie = function(movie, context) {
+                console.log('movie id: ' + movie);
+//                var dbpediaUrl = res["@context"].dbpedia;
+                var movieId = movie['@id'];
+                var prefix = movie['@id'].replace(/(.*):.*/, "\$1");
+                var ns = context[prefix];
+                if(ns) {
+                    movieId = movieId.replace(/.*:(.*)/, ns+"\$1");
 
+                }
+                console.log(movieId);
                 $http.put($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett',
                     movieId,
                     {headers: {'Access-Control-Allow-Methods': 'PUT, OPTIONS',

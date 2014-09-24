@@ -1,99 +1,105 @@
 <div class="row">
     <h1 class="col-md-12 text-center">Velkommen til Computas bedriftspresentasjon</h1>
 </div>
-    <div class="row">
-        <div class="col-md-8">
-	<h1 ng-hide="hideForm">Registrer Person</h1>
-	<div>
+<div class="row">
+    <div class="col-md-8">
+        <h1 ng-hide="hideForm">Registrer Person</h1>
+        <div>
 
-		<form ng-submit="submitperson()" ng-hide="hideForm">
-			<div class="form-group">
-				<label for="fornavn">Fornavn</label>
-				<input id="fornavn" class="form-control" ng-model="person.fornavn" required>
-				<label for="etternavn">Etternavn</label>
-				<input id="etternavn" class="form-control" ng-model="person.etternavn" required>
-				<label for="alder">Alder</label>
-				<input id="alder" class="form-control" ng-model="person.alder" required>
-				<label for="studieprogram">Studieprogram</label>
-				<input id="studieprogram" class="form-control" ng-model="person.studieretning" required>
-			</div>
-			<div class="form-group">
-				<button class="btn btn-default">Lagre</button>
-			</div>
-		<p>{{person.fornavn}} {{person.etternavn}}
-		{{person.alder}}
-		{{person.studieretning}}
-		</p>
-		</form>
-		<br>
-		<div>
-			<div class="col-md-12" ng-show="currentPerson">
-				<div class="row">
-				<h1>{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}} år, </span>
-                    <span ng-if="currentPerson['studieretning']">Studieretning: {{currentPerson["studieretning"]}}</span></h1>
+            <form ng-submit="submitperson()" ng-hide="hideForm">
+                <div class="form-group">
+                    <label for="fornavn">Fornavn</label>
+                    <input id="fornavn" class="form-control" ng-model="person.fornavn" required>
+                    <label for="etternavn">Etternavn</label>
+                    <input id="etternavn" class="form-control" ng-model="person.etternavn" required>
+                    <label for="alder">Alder</label>
+                    <input id="alder" class="form-control" ng-model="person.alder" required>
+                    <label for="studieprogram">Studieprogram</label>
+                    <input id="studieprogram" class="form-control" ng-model="person.studieretning" required>
                 </div>
-                <div class="row">
-                <label>Legg til venn:</label>
-
-				<input type="text"
-                    ng-model="nyvenn"
-                    typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
-                    typeahead-on-select="onMemberSelect($item)"
-                    class="form-control"
-                    placeholder="søk etter venn"
-                    typeahead-input-formatter = "selectedInputFormatter()"
-                    tag-paste="addKjenner"
-		        />
+                <div class="form-group">
+                    <button class="btn btn-default">Lagre</button>
                 </div>
-                <div class="row">
-		        <label>Legg til filmer du liker:</label>
-
-		        <input class="form-control"  ng-model="movieSearch"
-			    ng-change="localMovieSearch(movieSearch)">
-                    <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
-                    <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
-                        <div ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}</div>
+                <p>{{person.fornavn}} {{person.etternavn}}
+                    {{person.alder}}
+                    {{person.studieretning}}
+                </p>
+            </form>
+            <br>
+            <div>
+                <div class="col-md-12" ng-show="currentPerson">
+                    <div class="row">
+                        <h1>{{currentPerson["firstName"]}} {{currentPerson["lastName"]}}, <span ng-if="currentPerson['alder']">{{currentPerson["alder"]}} år, </span>
+                            <span ng-if="currentPerson['studieretning']">Studieretning: {{currentPerson["studieretning"]}}</span></h1>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3>Venner</h3>
-                        <div ng-repeat="knows in currentPersonFriends">
-                            {{knows.firstName}} {{knows.lastName}}, {{knows.studieretning}}
+                    <div class="form-group">
+                        <div class="row">
+
+                            <label>Legg til venn:</label>
+
+                            <input type="text"
+                                   ng-model="nyvenn"
+                                   typeahead="venn['firstName'] as venn['firstName'] for venn in wholeGraph | filter:$viewValue | limitTo:8"
+                                   typeahead-on-select="onMemberSelect($item)"
+                                   class="form-control"
+                                   placeholder="søk etter venn"
+                                   typeahead-input-formatter = "selectedInputFormatter()"
+                                   tag-paste="addKjenner"
+                                    />
+                        </div>
+                        <div class="row">
+                            <label>Legg til filmer du liker:</label>
+
+                            <input class="form-control"  ng-model="movieSearch"
+                                   ng-change="localMovieSearch(movieSearch)">
+                            <button class="btn btn-default" ng-click="getSearch(movieSearch)">Søk i DBPedia</button>
+
+                            <div class="col-md-12" ng-repeat="movie in movieResults['@graph']">
+                                <div ng-click="likesMovie(movie, movieResults['@context'])">{{movie.label['@value']}}</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h3>Filmer</h3>
-                        <div ng-repeat="harSettMovie in currentPersonMovies">
-                            <a href="{{harSettMovie['@id']}}">{{harSettMovie['label']}}</a>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Venner</h3>
+                            <div ng-repeat="knows in currentPersonFriends">
+                                {{knows.firstName}} {{knows.lastName}}, {{knows.studieretning}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>Filmer</h3>
+                            <div ng-repeat="harSettMovie in currentPersonMovies">
+                                <a href="{{harSettMovie['@id']}}">{{harSettMovie['label']}}</a>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-				</div>
-			</div>
-	</div>
+            </div>
         </div>
-	<div class="col-md-4 rounded">
-	    <h2>Personer</h2>
-		<div ng-repeat="node in wholeGraph">
-		    <span class="btn-link" ng-click="getPerson(node['@id'])">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
-            <div ng-show="listePerson" ng-repeat="venn in listePerson.kontakter">{{venn["firstName"]}} {{venn["lastName"]}}</div>
-		</div>
-	</div>
+        </div>
+        <div class="col-md-4 rounded">
+            <h2>Personer</h2>
+            <div ng-repeat="node in wholeGraph">
+                <span class="btn-link" ng-click="getPerson(node['@id'])">{{node["firstName"]}} {{node["lastName"]}}, {{node["alder"]}} år, program: {{node["studieretning"]}}</span>
+                <div ng-show="listePerson" ng-repeat="venn in listePerson.kontakter">{{venn["firstName"]}} {{venn["lastName"]}}</div>
+            </div>
+        </div>
 
-</div>
-<!-- <div class="row">
-	<div class="col-md-12" ng-if="currentPerson">
-		Legg til filmer du liker:
+    </div>
+    <!-- <div class="row">
+        <div class="col-md-12" ng-if="currentPerson">
+            Legg til filmer du liker:
 
-		<input ng-model="movieSearch" 
-			ng-change="getSearch(movieSearch)"			
-			>
+            <input ng-model="movieSearch"
+                ng-change="getSearch(movieSearch)"
+                >
 
-		<button class="btn btn-default" type="submit" ng-click="getSearch(movieSearch)">Søk</button>
-		<div ng-repeat="movie in movieResults['@graph']">
-			<span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
-		</div>
-	</div>
+            <button class="btn btn-default" type="submit" ng-click="getSearch(movieSearch)">Søk</button>
+            <div ng-repeat="movie in movieResults['@graph']">
+                <span ng-click="likesMovie(movie['@id'])">{{movie.label["@value"]}}	</span>
+            </div>
+        </div>
 
-</div> -->
+    </div> -->
