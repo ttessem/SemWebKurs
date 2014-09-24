@@ -1,6 +1,27 @@
-/*body{*/
-    /*background: url('../img/background.jpg') ;*/
-/*}*/
+body{
+    background: url('../img/16_9_papirfugler2.jpg') ;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+h1 {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: oblique;
+    color: whitesmoke;
+}
+h2 {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+label {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+span {
+    font-family: din, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+a {
+    color: #07466D;
+}
+
 /*.rounded {*/
     /*border: 2px solid #a1a1a1;*/
     /*padding: 10px 40px;*/
