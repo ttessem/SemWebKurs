@@ -27,13 +27,13 @@
                         return null;
                     });
                     //henter filmer
-                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
+                    $http.get($scope.url + '/'+ id + '/harSett')
                         .success(function(response){
                             console.log(response);
                             $scope.currentPersonMovies = response['@graph'];
                         });
                     //henter venner
-                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
+                    $http.get($scope.url + '/'+ id + '/kjenner')
                         .success(function(response){
                             console.log(response);
                             $scope.currentPersonFriends = response['@graph'];
