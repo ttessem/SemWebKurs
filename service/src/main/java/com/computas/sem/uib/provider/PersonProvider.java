@@ -118,8 +118,6 @@ public class PersonProvider {
 	})
 	public Response getPersonKjenner(@ApiParam(value = "Person id") @PathParam("id") String id){
 		Model personModel = ontoHelper.getPersonKjennerFromModel(id, getModel());
-		if(personModel.isEmpty())
-			return Response.status(404).build();
 		return getModelAsJsonLd(personModel);
 	}
 	
