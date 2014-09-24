@@ -26,6 +26,18 @@
                         console.log('æsj!!!');
                         return null;
                     });
+                    //henter filmer
+                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/harSett')
+                        .success(function(response){
+                            console.log(response);
+                            $scope.currentPersonMovies = response['@graph'];
+                        });
+                    //henter venner
+                    $http.get($scope.url + '/'+ getId($scope.currentPerson['@id']) + '/kjenner')
+                        .success(function(response){
+                            console.log(response);
+                            $scope.currentPersonFriends = response['@graph'];
+                        });
                 }
             };
             $scope.hideForm = ($cookies.cx_secret && $cookies.userId); // userId eller null
