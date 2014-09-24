@@ -25,7 +25,7 @@
                         return null;
                     });
             };
-            $scope.hideForm = $cookies.userId && $cookies.cx_secret;
+            $scope.hideForm = ($cookies.userId && $cookies.cx_secret);
             console.log("hideForm " + $scope.hideForm);
             $scope.secret = $cookies.cx_secret || null;            
             $scope.currentPersomId = $cookies.userId || null;
