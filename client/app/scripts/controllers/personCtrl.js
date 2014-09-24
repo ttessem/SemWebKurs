@@ -29,7 +29,7 @@
             console.log("hideForm " + $scope.hideForm);
             $scope.secret = $cookies.cx_secret || null;            
             $scope.currentPersomId = $cookies.userId || null;
-            $scope.currentPerson = $scoope.hideForm ? $scope.getPerson($cookies.userId) : null;
+            $scope.currentPerson = $scope.hideForm ? $scope.getPerson($cookies.userId) : null;
             console.log("CurrentPerson " + $scope.currentPerson);
             $scope.currentPersonMovies = [];
             $scope.currentPersonFriends = [];
