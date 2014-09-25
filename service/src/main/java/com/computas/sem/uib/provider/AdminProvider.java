@@ -39,7 +39,7 @@ public class AdminProvider {
 		try (	FileWriter data_fw = new FileWriter(PoCApplication.DATA_PATH); 
 				FileWriter auth_fw = new FileWriter(PoCApplication.AUTH_PATH)) {
 			local.getModel(RdfConnection.DATA_GRAPH).write(data_fw, "TURTLE");
-			local.getModel(RdfConnection.DATA_GRAPH).write(auth_fw, "TURTLE");
+			local.getModel(RdfConnection.AUTH_GRAPH).write(auth_fw, "TURTLE");
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Response.serverError().build();

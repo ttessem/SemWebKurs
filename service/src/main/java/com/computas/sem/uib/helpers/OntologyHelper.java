@@ -151,6 +151,10 @@ public class OntologyHelper {
 		return getSubjectWithLabel("Person");
 	}
 	
+	public Resource getFilmClass() {
+		return getSubjectWithLabel("Film");
+	}
+	
 	private Property getAlderPredicate() {		
 		return getPropertyWithLabel("alder");
 	}

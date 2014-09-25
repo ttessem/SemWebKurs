@@ -58,9 +58,9 @@ public class MovieProvider {
 	@ApiOperation( value = "Search for a movie.", notes = "Search dbpedia for a movie with a title that starts with the title argument (case sensitive). Returns sparql describe query of possible movies as JSON-LD.", produces = MEDIA_TYPE)
 	public Response searchMovieByTitle(
 			@ApiParam(required = true, value = "The start of the movie title (case sensitive).") @QueryParam("title") String title, 
-			@ApiParam(defaultValue = "4", value = "Limit results [1..10]" )@QueryParam("limit") int limit) {
+			@ApiParam(defaultValue = "10", value = "Limit results [1..10]" )@QueryParam("limit") int limit) {
 		if(limit == 0)
-			limit = 4;
+			limit = 10;
 		else if(limit > 10)
 			limit = 10;
 		

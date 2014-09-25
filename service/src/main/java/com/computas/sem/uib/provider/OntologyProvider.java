@@ -48,10 +48,13 @@ public class OntologyProvider {
 	@Produces(MEDIA_TYPE)
 	@ApiOperation(value = "Replace the current ontology", notes = "Replaces the current ontology. Consumes JSON-LD.")
 	public Response postOntology(@ApiParam(value="The new ontology as JSON-LD.", required=true) InputStream data) {
-		Model newOnto = ModelFactory.createDefaultModel();
-		newOnto.read(data, null, RDF_FORMAT);
-		ontoHelper.setOntologyModel(newOnto);
-		
+		try {
+			Model newOnto = ModelFactory.createDefaultModel();
+			newOnto.read(data, null, RDF_FORMAT);
+			ontoHelper.setOntologyModel(newOnto);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 		return getOntologi();
 	}
 	

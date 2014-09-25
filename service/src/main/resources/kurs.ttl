@@ -1,59 +1,42 @@
-# baseURI: http://semweb.computas.com/service/ontologi
-# imports: http://xmlns.com/foaf/0.1/
-
-@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix dbpedia-owl: <http://dbpedia.org/ontology/> .
-@prefix kurs: <http://semweb.computas.com/service/ontologi#> .
-@prefix movie: <http://data.linkedmdb.org/resource/movie/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix cx:    <http://semweb.computas.com/service/ontologi#> .
+
+foaf:knows  rdfs:domain  cx:Person ;
+        rdfs:label   "kjenner" ;
+        rdfs:range   cx:Person .
+
+cx:Film  a               owl:Class ;
+        rdfs:label       "Film" ;
+        rdfs:subClassOf  dbpedia-owl:TelevisionShow , dbpedia-owl:Film .
 
 <http://semweb.computas.com/service/ontologi>
-  rdf:type owl:Ontology ;
-  owl:imports <http://xmlns.com/foaf/0.1/> ;
-  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
-.
-kurs:Person
-  rdf:type owl:Class ;
-  rdfs:subClassOf <http://xmlns.com/foaf/0.1/Person> ;
-  rdfs:label "Person" ;
-.
-kurs:alder
-  rdf:type owl:DatatypeProperty ;
-  rdfs:domain kurs:Person ;
-  rdfs:range xsd:integer ;
-  rdfs:label "alder" ;
-.
-kurs:harSett
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain kurs:Person ;
-  rdfs:range [
-      rdf:type owl:Class ;
-      owl:unionOf (
-          movie:film
-          dbpedia-owl:film
-        ) ;
-    ] ;
-  rdfs:label "harSett" ;
-.
-kurs:studieretning
-  rdf:type owl:DatatypeProperty ;
-  rdfs:domain kurs:Person ;
-  rdfs:range xsd:string ;
-  rdfs:label "studieretning" ;
-.
-foaf:firstName 
-	rdfs:domain kurs:Person ;
-	rdfs:label "fornavn" ;
-.
-foaf:lastName 
-	rdfs:domain kurs:Person ;
-	rdfs:label "etternavn" ;
-.
-foaf:knows 
-	rdfs:domain kurs:Person ;
-	rdfs:label "kjenner" ;
-.
+        a       owl:Ontology .
+
+cx:Person  a             owl:Class ;
+        rdfs:label       "Person" ;
+        rdfs:subClassOf  foaf:Person .
+
+foaf:firstName  rdfs:domain  cx:Person ;
+        rdfs:label   "fornavn" .
+
+cx:studieretning  a  owl:DatatypeProperty ;
+        rdfs:domain  cx:Person ;
+        rdfs:label   "studieretning" ;
+        rdfs:range   xsd:string .
+
+cx:alder  a          owl:DatatypeProperty ;
+        rdfs:domain  cx:Person ;
+        rdfs:label   "alder" ;
+        rdfs:range   xsd:integer .
+
+cx:harSett  a        owl:ObjectProperty ;
+        rdfs:domain  cx:Person ;
+        rdfs:label   "harSett" ;
+        rdfs:range   cx:Film .
+
+foaf:lastName  rdfs:domain  cx:Person ;
+        rdfs:label   "etternavn" .

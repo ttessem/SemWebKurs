@@ -25,6 +25,5 @@ a {
 .rounded {
     padding: 10px 15px 25px 15px;
     border-radius: 8px;
-    z-index: -20;
 background-color: rgba(252, 252, 252, 0.6);
 }
