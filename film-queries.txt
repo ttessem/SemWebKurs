@@ -7,9 +7,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX cx: <http://semweb.computas.com/service/ontologi#>
 
-SELECT ?navn WHERE {
+SELECT ?fornavn  ?etternavn WHERE {
   ?person cx:studieretning "Informatikk" .
-  ?person foaf:firstName ?navn .
+  ?person foaf:firstName ?fornavn .
+  ?person foaf:lastName  ?etternavn .
 } 
 
 2. Finner alle personer som kjenner noen som er 22 år gamle.
@@ -21,7 +22,7 @@ PREFIX cx: <http://semweb.computas.com/service/ontologi#>
 
 SELECT ?person1 WHERE {
   ?person1 foaf:knows ?person2 .
-  ?person2 cx:alder 22 .
+  ?person2 cx:alder 27 .
 } 
 
 3. Finner fornavn og filmtittel til alle som har sett en film med strengen "Godfather i tittlen" .
@@ -31,14 +32,14 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX cx: <http://semweb.computas.com/service/ontologi#>
 
-SELECT ?navn ?tittel WHERE {
+SELECT ?fornavn ?tittel WHERE {
   ?person cx:harSett ?movie .
-  ?person foaf:firstName ?navn .
+  ?person foaf:firstName ?fornavn .
   ?movie rdfs:label ?tittel .
   FILTER (regex(?tittel,"Godfather","i"))    
 } 
 
-4.
+4. Finner navn på skuespillere en gitt person har sett.
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -47,8 +48,8 @@ PREFIX cx: <http://semweb.computas.com/service/ontologi#>
 PREFIX dbpedia: <http://dbpedia.org/resource/>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 
-SELECT ?person ?actorName WHERE {
-  ?person cx:harSett ?film .	
+SELECT DISTINCT ?actorName WHERE {
+  <http://semweb.computas.com/service/uib/person/3> cx:harSett ?film .	
   SERVICE <http://dbpedia.org/sparql> {
     ?film dbpedia-owl:starring ?actor .
     ?actor foaf:name ?actorName .
@@ -56,7 +57,7 @@ SELECT ?person ?actorName WHERE {
 } 
 LIMIT 20
 
-5.
+5. Fornavn, Regissør, Film (bare filmer siden dbpedia-owl:director har domain dbpedia-owl:Film)
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -65,7 +66,7 @@ PREFIX cx: <http://semweb.computas.com/service/ontologi#>
 PREFIX dbpedia: <http://dbpedia.org/resource/>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
 
-SELECT ?person ?director ?film WHERE {
+SELECT ?name ?director ?film WHERE {
   ?person foaf:firstName ?name . 
   ?person cx:harSett ?f .
   ?f rdfs:label ?film .    
@@ -77,7 +78,7 @@ SELECT ?person ?director ?film WHERE {
 }
 LIMIT 20 
 
-6.
+6. Fornavn, Skuespiller, Film (både filmer og serie siden dbpedia-owl:starring har domain dbpedia-owl:Work)
 
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
